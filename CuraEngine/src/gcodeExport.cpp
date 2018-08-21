@@ -688,7 +688,7 @@ void GCodeExport::finalize(double moveSpeed, const char* endCode)
     writeCode(endCode);
     
     std::ofstream theFile;
-    theFile.open("../pricing-3-d-models/outputTime.txt");
+    theFile.open("../pricing-3-d-Models/outputTime.txt");
     int printTime = int(getTotalPrintTime());
     int printTimeHrs = (int(printTime)/3600)+1;
     int printTimeMin = printTime%60;
@@ -713,7 +713,7 @@ void GCodeExport::finalize(double moveSpeed, const char* endCode)
         if (getTotalFilamentUsed(n) > 0)    
             log("Filament%d: %d\n", n + 1, int(getTotalFilamentUsed(n)));
     std::ofstream theFile1;
-    theFile1.open("../pricing-3-d-models/outputWeight.txt");
+    theFile1.open("../pricing-3-d-Models/outputWeight.txt");
     double printWeight = int(getTotalFilamentUsed(0));
     theFile1 << printWeight;
     log("Weight: %lf\n",printWeight);        
