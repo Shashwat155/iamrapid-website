@@ -678,7 +678,7 @@ app.get("/uploadfile/modify-layer-height/:lh/:infill/:name/:id/:material", funct
     console.log(typeof material);
     var matid = material.slice(0,3);
     var cmdURL = modifyCommandURL(name);
-        var file = editJson("Cura/resources/machines/fdmprinter.json");
+        var file = editJson("../Cura/resources/machines/fdmprinter.json");
     file.get().categories.resolution.settings.layer_height.default = Number(lh);
     file.get().categories.infill.settings.infill_sparse_density.children.infill_line_distance.default = Number(infill);
     file.save();
@@ -794,7 +794,7 @@ app.get("/uploadfile/modify-infill-percentage/:infill/:lh/:name/:id/:material", 
     console.log(typeof material);
     var matid = material.slice(0,3);
     var cmdURL = modifyCommandURL(name);
-        var file = editJson("Cura/resources/machines/fdmprinter.json");
+        var file = editJson("../Cura/resources/machines/fdmprinter.json");
     file.get().categories.resolution.settings.layer_height.default = Number(lh);
     file.get().categories.infill.settings.infill_sparse_density.children.infill_line_distance.default = Number(infill);
     file.save();

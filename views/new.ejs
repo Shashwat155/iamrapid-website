@@ -253,7 +253,7 @@ $( "#layerHeight1" ).change(function(){
   var material =  $( "#material1 option:selected" ).val();
   console.log (material);
   console.log(typeof material);
-  var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/modify-layer-height/" + lh + "/" + inf + "/" + name + "/" + id + "/" + material;
+  var url = "/uploadfile/modify-layer-height/" + lh + "/" + inf + "/" + name + "/" + id + "/" + material;
   fetch(url)
   .then(function(res){
     console.log(res);
@@ -311,7 +311,7 @@ $( "#infill1" ).change(function(){
     console.log (material);
     console.log(typeof material);
   }
-  var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/modify-infill-percentage/" + inf + "/" + lh + "/" + name + "/" + id + "/" + material;
+  var url = "/uploadfile/modify-infill-percentage/" + inf + "/" + lh + "/" + name + "/" + id + "/" + material;
   fetch(url)
   .then(function(res){
     console.log(res);
@@ -347,7 +347,7 @@ $( "#infill1" ).change(function(){
       var printerId = $( '#printer1' ).val();
       console.log(printerId);
       console.log (typeof printerId);
-      var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/change-printer/" + id + "/" + printerId;
+      var url = "/uploadfile/change-printer/" + id + "/" + printerId;
       fetch(url)
     .then(function(res){
         console.log(res);
@@ -394,7 +394,7 @@ $( "#infill1" ).change(function(){
   var id = $('#databaseId1').val();
   var material = ($( "#material1" ).val());
   var printerId = $( '#printer1' ).val();
-  var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
+  var url = "/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
   fetch(url)
   .then(function(res){
     console.log(res);
@@ -431,7 +431,7 @@ $( "#infill1" ).change(function(){
     var id = $('#databaseId1').val();
     var material = ($( "#material21" ).val());
     var printerId = $( '#printer1').val();
-    var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
+    var url = "/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
     fetch(url)
     .then(function(res){
       console.log(res);
@@ -472,7 +472,7 @@ $( "#infill1" ).change(function(){
     $('#qtymore1').hide();
     $('#qtyless1').hide();
 
-    var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/increase-quantity/" + id + "/" + newval;
+    var url = "/uploadfile/increase-quantity/" + id + "/" + newval;
     fetch(url)
     .then(function(res){
       console.log(res);
@@ -512,7 +512,7 @@ $( "#infill1" ).change(function(){
       $('#qtymore1').hide();
       $('#qtyless1').hide();
 
-      var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/decrease-quantity/" + id + "/" + newval;
+      var url = "/uploadfile/decrease-quantity/" + id + "/" + newval;
       fetch(url)
       .then(function(res){
         console.log(res);
@@ -577,7 +577,7 @@ $( "#layerHeight2" ).change(function(){
   var material =  $( "#material2 option:selected" ).val();
   console.log (material);
   console.log(typeof material);
-  var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/modify-layer-height/" + lh + "/" + inf + "/" + name + "/" + id + "/" + material;
+  var url = "/uploadfile/modify-layer-height/" + lh + "/" + inf + "/" + name + "/" + id + "/" + material;
   fetch(url)
   .then(function(res){
     console.log(res);
@@ -635,7 +635,7 @@ $( "#infill2" ).change(function(){
     console.log (material);
     console.log(typeof material);
   }
-  var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/modify-infill-percentage/" + inf + "/" + lh + "/" + name + "/" + id + "/" + material;
+  var url = "/uploadfile/modify-infill-percentage/" + inf + "/" + lh + "/" + name + "/" + id + "/" + material;
   fetch(url)
   .then(function(res){
     console.log(res);
@@ -671,7 +671,7 @@ $( "#infill2" ).change(function(){
       var printerId = $( '#printer2' ).val();
       console.log(printerId);
       console.log (typeof printerId);
-      var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/change-printer/" + id + "/" + printerId;
+      var url = "/uploadfile/change-printer/" + id + "/" + printerId;
       fetch(url)
     .then(function(res){
         console.log(res);
@@ -718,7 +718,7 @@ $( "#infill2" ).change(function(){
   var id = $('#databaseId2').val();
   var material = ($( "#material2" ).val());
   var printerId = $( '#printer2' ).val();
-  var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
+  var url = "/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
   fetch(url)
   .then(function(res){
     console.log(res);
@@ -755,7 +755,7 @@ $( "#infill2" ).change(function(){
     var id = $('#databaseId2').val();
     var material = ($( "#material22" ).val());
     var printerId = $( '#printer2').val();
-    var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
+    var url = "/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
     fetch(url)
     .then(function(res){
       console.log(res);
@@ -796,7 +796,7 @@ $( "#infill2" ).change(function(){
     $('#qtymore2').hide();
     $('#qtyless2').hide();
 
-    var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/increase-quantity/" + id + "/" + newval;
+    var url = "/uploadfile/increase-quantity/" + id + "/" + newval;
     fetch(url)
     .then(function(res){
       console.log(res);
@@ -836,7 +836,7 @@ $( "#infill2" ).change(function(){
       $('#qtymore2').hide();
       $('#qtyless2').hide();
 
-      var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/decrease-quantity/" + id + "/" + newval;
+      var url = "/uploadfile/decrease-quantity/" + id + "/" + newval;
       fetch(url)
       .then(function(res){
         console.log(res);
@@ -895,7 +895,7 @@ $( "#layerHeight3" ).change(function(){
   var material =  $( "#material3 option:selected" ).val();
   console.log (material);
   console.log(typeof material);
-  var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/modify-layer-height/" + lh + "/" + inf + "/" + name + "/" + id + "/" + material;
+  var url = "/uploadfile/modify-layer-height/" + lh + "/" + inf + "/" + name + "/" + id + "/" + material;
   fetch(url)
   .then(function(res){
     console.log(res);
@@ -953,7 +953,7 @@ $( "#infill3" ).change(function(){
     console.log (material);
     console.log(typeof material);
   }
-  var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/modify-infill-percentage/" + inf + "/" + lh + "/" + name + "/" + id + "/" + material;
+  var url = "/uploadfile/modify-infill-percentage/" + inf + "/" + lh + "/" + name + "/" + id + "/" + material;
   fetch(url)
   .then(function(res){
     console.log(res);
@@ -989,7 +989,7 @@ $( "#infill3" ).change(function(){
       var printerId = $( '#printer3' ).val();
       console.log(printerId);
       console.log (typeof printerId);
-      var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/change-printer/" + id + "/" + printerId;
+      var url = "/uploadfile/change-printer/" + id + "/" + printerId;
       fetch(url)
     .then(function(res){
         console.log(res);
@@ -1036,7 +1036,7 @@ $( "#infill3" ).change(function(){
   var id = $('#databaseId3').val();
   var material = ($( "#material3" ).val());
   var printerId = $( '#printer3' ).val();
-  var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
+  var url = "/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
   fetch(url)
   .then(function(res){
     console.log(res);
@@ -1073,7 +1073,7 @@ $( "#infill3" ).change(function(){
     var id = $('#databaseId3').val();
     var material = ($( "#material23" ).val());
     var printerId = $( '#printer3').val();
-    var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
+    var url = "/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
     fetch(url)
     .then(function(res){
       console.log(res);
@@ -1114,7 +1114,7 @@ $( "#infill3" ).change(function(){
     $('#qtymore3').hide();
     $('#qtyless3').hide();
 
-    var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/increase-quantity/" + id + "/" + newval;
+    var url = "/uploadfile/increase-quantity/" + id + "/" + newval;
     fetch(url)
     .then(function(res){
       console.log(res);
@@ -1154,7 +1154,7 @@ $( "#infill3" ).change(function(){
       $('#qtymore3').hide();
       $('#qtyless3').hide();
 
-      var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/decrease-quantity/" + id + "/" + newval;
+      var url = "/uploadfile/decrease-quantity/" + id + "/" + newval;
       fetch(url)
       .then(function(res){
         console.log(res);
@@ -1210,7 +1210,7 @@ $( "#layerHeight4" ).change(function(){
   var material =  $( "#material4 option:selected" ).val();
   console.log (material);
   console.log(typeof material);
-  var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/modify-layer-height/" + lh + "/" + inf + "/" + name + "/" + id + "/" + material;
+  var url = "/uploadfile/modify-layer-height/" + lh + "/" + inf + "/" + name + "/" + id + "/" + material;
   fetch(url)
   .then(function(res){
     console.log(res);
@@ -1268,7 +1268,7 @@ $( "#infill4" ).change(function(){
     console.log (material);
     console.log(typeof material);
   }
-  var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/modify-infill-percentage/" + inf + "/" + lh + "/" + name + "/" + id + "/" + material;
+  var url = "/uploadfile/modify-infill-percentage/" + inf + "/" + lh + "/" + name + "/" + id + "/" + material;
   fetch(url)
   .then(function(res){
     console.log(res);
@@ -1304,7 +1304,7 @@ $( "#infill4" ).change(function(){
       var printerId = $( '#printer4' ).val();
       console.log(printerId);
       console.log (typeof printerId);
-      var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/change-printer/" + id + "/" + printerId;
+      var url = "/uploadfile/change-printer/" + id + "/" + printerId;
       fetch(url)
     .then(function(res){
         console.log(res);
@@ -1351,7 +1351,7 @@ $( "#infill4" ).change(function(){
   var id = $('#databaseId4').val();
   var material = ($( "#material4" ).val());
   var printerId = $( '#printer4' ).val();
-  var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
+  var url = "/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
   fetch(url)
   .then(function(res){
     console.log(res);
@@ -1388,7 +1388,7 @@ $( "#infill4" ).change(function(){
     var id = $('#databaseId4').val();
     var material = ($( "#material24" ).val());
     var printerId = $( '#printer4').val();
-    var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
+    var url = "/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
     fetch(url)
     .then(function(res){
       console.log(res);
@@ -1429,7 +1429,7 @@ $( "#infill4" ).change(function(){
     $('#qtymore4').hide();
     $('#qtyless4').hide();
 
-    var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/increase-quantity/" + id + "/" + newval;
+    var url = "/uploadfile/increase-quantity/" + id + "/" + newval;
     fetch(url)
     .then(function(res){
       console.log(res);
@@ -1469,7 +1469,7 @@ $( "#infill4" ).change(function(){
       $('#qtymore4').hide();
       $('#qtyless4').hide();
 
-      var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/decrease-quantity/" + id + "/" + newval;
+      var url = "/uploadfile/decrease-quantity/" + id + "/" + newval;
       fetch(url)
       .then(function(res){
         console.log(res);
@@ -1529,7 +1529,7 @@ $( "#layerHeight5" ).change(function(){
   var material =  $( "#material5 option:selected" ).val();
   console.log (material);
   console.log(typeof material);
-  var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/modify-layer-height/" + lh + "/" + inf + "/" + name + "/" + id + "/" + material;
+  var url = "/uploadfile/modify-layer-height/" + lh + "/" + inf + "/" + name + "/" + id + "/" + material;
   fetch(url)
   .then(function(res){
     console.log(res);
@@ -1587,7 +1587,7 @@ $( "#infill5" ).change(function(){
     console.log (material);
     console.log(typeof material);
   }
-  var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/modify-infill-percentage/" + inf + "/" + lh + "/" + name + "/" + id + "/" + material;
+  var url = "/uploadfile/modify-infill-percentage/" + inf + "/" + lh + "/" + name + "/" + id + "/" + material;
   fetch(url)
   .then(function(res){
     console.log(res);
@@ -1623,7 +1623,7 @@ $( "#infill5" ).change(function(){
       var printerId = $( '#printer5' ).val();
       console.log(printerId);
       console.log (typeof printerId);
-      var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/change-printer/" + id + "/" + printerId;
+      var url = "/uploadfile/change-printer/" + id + "/" + printerId;
       fetch(url)
     .then(function(res){
         console.log(res);
@@ -1670,7 +1670,7 @@ $( "#infill5" ).change(function(){
   var id = $('#databaseId5').val();
   var material = ($( "#material5" ).val());
   var printerId = $( '#printer5' ).val();
-  var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
+  var url = "/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
   fetch(url)
   .then(function(res){
     console.log(res);
@@ -1707,7 +1707,7 @@ $( "#infill5" ).change(function(){
     var id = $('#databaseId5').val();
     var material = ($( "#material25" ).val());
     var printerId = $( '#printer5').val();
-    var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
+    var url = "/uploadfile/change-material/" + id + "/" + printerId + "/" + material;
     fetch(url)
     .then(function(res){
       console.log(res);
@@ -1748,7 +1748,7 @@ $( "#infill5" ).change(function(){
     $('#qtymore5').hide();
     $('#qtyless5').hide();
 
-    var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/increase-quantity/" + id + "/" + newval;
+    var url = "/uploadfile/increase-quantity/" + id + "/" + newval;
     fetch(url)
     .then(function(res){
       console.log(res);
@@ -1788,7 +1788,7 @@ $( "#infill5" ).change(function(){
       $('#qtymore5').hide();
       $('#qtyless5').hide();
 
-      var url = "https://sadfdf-swastik0310.c9users.io/uploadfile/decrease-quantity/" + id + "/" + newval;
+      var url = "/uploadfile/decrease-quantity/" + id + "/" + newval;
       fetch(url)
       .then(function(res){
         console.log(res);
