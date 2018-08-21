@@ -182,7 +182,7 @@ passport.deserializeUser((id, done) => {
 passport.use(new GoogleStrategy({
     clientID: '843006764440-oi2bchr14s0dvcdugtdfbfhctmmmkgh6.apps.googleusercontent.com',
     clientSecret: 'VJOBzAzaodOwWlqpDvyH3Qce',
-    callbackURL: "https://sadfdf-swastik0310.c9users.io/auth/google/redirect"
+    callbackURL: "http://www.iamrapid.com/auth/google/redirect"
   }, (accessToken, refreshToken, profile, done) => {
       //console.log(refreshToken);
         // check if user already exists in our own db
