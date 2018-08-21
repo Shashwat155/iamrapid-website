@@ -332,7 +332,7 @@ app.post('/upload', authCheck, (req, res) => {
         {
             //stltoimg();
             var cmdURL = commandURL();
-            var file = editJson("Cura/resources/machines/fdmprinter.json");
+            var file = editJson("../Cura/resources/machines/fdmprinter.json");
             file.get().categories.resolution.settings.layer_height.default = 0.2;
             file.get().categories.infill.settings.infill_sparse_density.children.infill_line_distance.default = 1.1667;
             file.save();
