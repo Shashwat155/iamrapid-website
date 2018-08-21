@@ -1145,12 +1145,12 @@ app.get("/uploadfile/decrease-quantity/:id/:quantity", function (req, res){
 // }
 
 function commandURL(name){
-    return 'cd CuraEngine && \ ./build/CuraEngine slice -v -j ../Cura/resources/machines/dual_extrusion_printer.json -o "output/test.gcode" -e1 -s infill_line_distance=0 -e0 -l "../public/uploads/' + sampleFileName + '"';
+    return 'cd ../CuraEngine && \ ./build/CuraEngine slice -v -j ../Cura/resources/machines/dual_extrusion_printer.json -o "output/test.gcode" -e1 -s infill_line_distance=0 -e0 -l "../public/uploads/' + sampleFileName + '"';
 }
 
 
 function modifyCommandURL(name){
-    return 'cd CuraEngine && \ ./build/CuraEngine slice -v -j ../Cura/resources/machines/dual_extrusion_printer.json -o "output/test.gcode" -e1 -s infill_line_distance=0 -e0 -l "../public/uploads/' + name + '"';
+    return 'cd ../CuraEngine && \ ./build/CuraEngine slice -v -j ../Cura/resources/machines/dual_extrusion_printer.json -o "output/test.gcode" -e1 -s infill_line_distance=0 -e0 -l "../public/uploads/' + name + '"';
 }
 
 
