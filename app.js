@@ -602,10 +602,10 @@ app.get("/payment/:id", function (req, res){
                     found.forEach(function(findeach){
                         Cart.findByIdAndRemove(findeach._id, function(err){
                             if(!err){
-                                res.redirect("/mycart");
                             }
                         });
                     });
+                    res.redirect("/mycart");
                 });
                         // let transporter = nodemailer.createTransport({
                             // service: 'smtp.gmail.com',
@@ -641,7 +641,7 @@ app.get("/payment/:id", function (req, res){
 
 
 app.get("/iamrapidadmin", function(req, res){
-   if (req.user.emailId === "swastik.singh0301@gmail.com"){
+    if (req.user.emailId === "swastik.singh0301@gmail.com" || req.user.emailId === "shashwat@iamrapid.com" || req.user.emailId === "sushant@iamrapid.com" ){
         Order.find({}, function(err,obj){
             if(err){
                 console.log(err);
