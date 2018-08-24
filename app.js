@@ -180,8 +180,8 @@ passport.deserializeUser((id, done) => {
 
 // passport middleware
 passport.use(new GoogleStrategy({
-    clientID: '843006764440-oi2bchr14s0dvcdugtdfbfhctmmmkgh6.apps.googleusercontent.com',
-    clientSecret: 'VJOBzAzaodOwWlqpDvyH3Qce',
+    clientID: keys.google.clientId,
+    clientSecret: keys.google.clientSecret,
     callbackURL: "http://www.iamrapid.com/auth/google/redirect"
   }, (accessToken, refreshToken, profile, done) => {
       //console.log(refreshToken);
@@ -232,8 +232,8 @@ passport.use(new GoogleStrategy({
 
 
 var rzp = new Razorpay({
-  key_id: 'rzp_test_2ZhVhf0meouzDo',
-  key_secret: 'dBKHC7ZWSzapnbS0Sm2kK8vs'
+  key_id: keys.razorpay.keyid,
+  key_secret: keys.razorpay.keysecret
 })
 
 

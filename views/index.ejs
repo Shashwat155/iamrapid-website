@@ -41,14 +41,11 @@
 
       <nav id="nav-menu-container">
         <ul class="nav-menu">
-          <li class="menu-active"><a href="#hero">Home</a></li>
-          <li><a href="#about">3D Printing</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#portfolio">How It Works</a></li>
+          <li class="menu-active"><a href="/contact-us">Contact Us</a></li>
+          <!--<li><a href="#about">3D Printing</a></li>-->
+          <!--<li><a href="#services">Services</a></li>-->
+          <!--<li><a href="#portfolio">How It Works</a></li>-->
           <li><a class="btn-default" id="loginbutton" href="/auth/google">log in with google</a></li>
-
-          </li>
-          <li><a href="#contact">Contact Us</a></li>
         </ul>
       </nav><!-- #nav-menu-container -->
     </div>
@@ -61,8 +58,8 @@
     <div class="hero-container">
       <h1>Most Affordable 3D printing Service</h1>
       <hr>
-      <h2 style="font-size: 15px; margin-right: 300px; margin-left: 300px; margin-bottom: 15px;">We provide Holistic 3d printing service for your ideas from design and prototyping to small batch production. </h2>
-      <h2 style="font-size: 15px; margin-right: 300px; margin-left: 300px;">We give shape to your ideas through State of the art accurate FDM, SLA and SLS printing along with post production.</h2>
+      <h2 style="font-size: 15px; margin-right: 300px; margin-left: 300px; margin-bottom: 15px;"></h2>
+      <h2 style="font-size: 15px; margin-right: 300px; margin-left: 300px;"></h2>
       <a href="#upload" class="btn-get-started">Get Started</a>
     </div>
   </section><!-- #hero -->
@@ -73,27 +70,71 @@
     <!--==========================
       upload section
     ============================-->
-    <section id="upload">
-      <div class="container wow fadeIn">
+    <!--<section id="upload">-->
+    <!--  <div class="container wow fadeIn">-->
+    <!--    <div class="section-header">-->
+    <!--      <h3 class="section-title">Looking to Prototype Your Product?</h3>-->
+    <!--      <p class="section-description"></p>-->
+    <!--    </div>-->
+    <!--    <div class="row">-->
+     <section id="portfolio">
+      <div class="container wow fadeInUp">
         <div class="section-header">
-          <h3 class="section-title">Looking to Prototype Your Product?</h3>
+          <h3 class="section-title">LOOKING TO PROTOTYPE YOUR PRODUCT?</h3>
           <p class="section-description"></p>
         </div>
-        <div class="row">
-          <div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
-            <div class="box">
-              <div class="icon"><a href="/auth/google"><i class="fa fa-upload"></i></a></div>
-              <h4 class="title"><a href="/auth/google">Upload a 3D Model</a></h4>
-              <p class="description">Get instant Quation and delivery at your Doorstep</p>
-            </div>
+        <!--<div class="row">-->
+
+          <!--<div class="col-lg-12">-->
+          <!--  <ul id="portfolio-flters">-->
+          <!--    <li data-filter=".filter-app, .filter-card, .filter-logo, .filter-web" class="filter-active">All</li>-->
+          <!--    <li data-filter=".filter-app">App</li>-->
+          <!--    <li data-filter=".filter-card">Card</li>-->
+          <!--    <li data-filter=".filter-logo">Logo</li>-->
+          <!--    <li data-filter=".filter-web">Web</li>-->
+          <!--  </ul>-->
+          <!--</div>-->
+        <!--</div>-->
+
+        <div class="row" id="portfolio-wrapper">
+          <div class="col-lg-6 col-md-6 portfolio-item filter-app">
+            <a href="/auth/google">
+              <img src="img/portfolio/ravager-groot-3d-model.jpg" alt="">
+              <div class="details">
+                <h4>Upload 3D Model</h4>
+                <span>Get Instant Quotation and delivery at your Doorstep</span>
+              </div>
+            </a>
           </div>
-          <div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
-            <div class="box">
-              <div class="icon"><a href="/auth/google"><i class="fa fa-paint-brush"></i></a></div>
-              <h4 class="title"><a href="/auth/google">Design with Us</a></h4>
-              <p class="description">Find a professional designer to bring your idea to life</p>
-            </div>
+
+          <div class="col-lg-6 col-md-6 portfolio-item filter-web">
+            <a href="/contact-us">
+              <img src="img/portfolio/ravager-groot-3d-model.jpg" alt="">
+              <div class="details">
+                <h4>Design with us</h4>
+                <span>Find a professional designer to bring your idea to lifer</span>
+              </div>
+            </a>
           </div>
+        </div>
+
+      </div>
+    </section>
+          <!--<div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.2s">-->
+          <!--  <div class="box">-->
+              <!--<img src = "data:image/png;base64,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">-->
+          <!--    <div class="icon"><a href="/auth/google"><i class="fa fa-upload"></i></a></div>-->
+          <!--    <h4 class="title"><a href="/auth/google">Upload a 3D Model</a></h4>-->
+          <!--    <p class="description">Get instant Quation and delivery at your Doorstep</p>-->
+          <!--    </div>-->
+          <!--</div>-->
+          <!--<div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.4s">-->
+          <!--  <div class="box">-->
+          <!--    <div class="icon"><a href="/contact-us"><i class="fa fa-paint-brush"></i></a></div>-->
+          <!--    <h4 class="title"><a href="/contact-us">Design with Us</a></h4>-->
+          <!--    <p class="description">Find a professional designer to bring your idea to life</p>-->
+          <!--  </div>-->
+          <!--</div>-->
 
 
         </div>
@@ -115,7 +156,6 @@
             </h3>
             <p>
               We manufacture high-quality, affordable products in 20 of the best materials and finishes, from plastics to carbon fibre and nylon. Upload for an instant quote or contact us to co-develop a solution for unique products.</p>
-
             <!--<div class="icon-box wow fadeInUp">-->
             <!-- <div class="icon"><i class="fa fa-shopping-bag"></i></div>-->
             <!--  <h4 class="title"><a href="">Eiusmod Tempor</a></h4>-->
@@ -127,10 +167,12 @@
             <!--  <h4 class="title"><a href="">Magni Dolores</a></h4>-->
             <!--  <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>-->
             <!--</div>-->
-              <!--<p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>-->
-            </div>
+            <!--  <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>-->
+            <!--</div>-->
           </div>
-          <div class="col-lg-6 background order-lg-2 order-1 wow fadeInRight"></div>
+          <div class="col-lg-6 background order-lg-2 order-1 wow fadeInRight">
+            <img src = "img/about-img.jpg" >
+          </div>
         </div>
 
       </div>
@@ -232,7 +274,7 @@
     <!--    </div>-->
 
     <!--  </div>-->
-    <!--</section><!-- #call-to-action -->-->
+    <!--</section><!-- #call-to-action -->
 
     <!--==========================
       Portfolio Section
@@ -243,7 +285,7 @@
           <h3 class="section-title">Gallery</h3>
           <p class="section-description"></p>
         </div>
-        <div class="row">
+        <!--<div class="row">-->
 
           <!--<div class="col-lg-12">-->
           <!--  <ul id="portfolio-flters">-->
@@ -254,12 +296,12 @@
           <!--    <li data-filter=".filter-web">Web</li>-->
           <!--  </ul>-->
           <!--</div>-->
-        </div>
+        <!--</div>-->
 
         <div class="row" id="portfolio-wrapper">
           <div class="col-lg-3 col-md-6 portfolio-item filter-app">
             <a href="">
-              <img src="img/portfolio/app1.jpg" alt="">
+              <img src="img/portfolio/17494839_1157769067681935_1331342267218132992_n.jpg" alt="">
               <div class="details">
                 <h4>App 1</h4>
                 <span>Alored dono par</span>
@@ -269,7 +311,7 @@
 
           <div class="col-lg-3 col-md-6 portfolio-item filter-web">
             <a href="">
-              <img src="img/portfolio/web2.jpg" alt="">
+              <img src="img/portfolio/17587176_278599215923638_6876279981341671424_n.jpg" alt="">
               <div class="details">
                 <h4>Web 2</h4>
                 <span>Alored dono par</span>
@@ -279,7 +321,7 @@
 
           <div class="col-lg-3 col-md-6 portfolio-item filter-app">
             <a href="">
-              <img src="img/portfolio/app3.jpg" alt="">
+              <img src="img/portfolio/17587274_1658763647486314_4466436520898723840_n.jpg" alt="">
               <div class="details">
                 <h4>App 3</h4>
                 <span>Alored dono par</span>
@@ -289,7 +331,7 @@
 
           <div class="col-lg-3 col-md-6 portfolio-item filter-card">
             <a href="">
-              <img src="img/portfolio/card1.jpg" alt="">
+              <img src="img/portfolio/17661732_1003716043095617_9162551022155988992_n.jpg" alt="">
               <div class="details">
                 <h4>Card 1</h4>
                 <span>Alored dono par</span>
@@ -299,7 +341,7 @@
 
           <div class="col-lg-3 col-md-6 portfolio-item filter-card">
             <a href="">
-              <img src="img/portfolio/card2.jpg" alt="">
+              <img src="img/portfolio/17819036_1615173621830822_2761204882273730560_n.jpg" alt="">
               <div class="details">
                 <h4>Card 2</h4>
                 <span>Alored dono par</span>
@@ -309,7 +351,7 @@
 
           <div class="col-lg-3 col-md-6 portfolio-item filter-web">
             <a href="">
-              <img src="img/portfolio/web3.jpg" alt="">
+              <img src="img/portfolio/17933962_786676594819331_3985938429048258560_n.jpg" alt="">
               <div class="details">
                 <h4>Web 3</h4>
                 <span>Alored dono par</span>
@@ -319,7 +361,7 @@
 
           <div class="col-lg-3 col-md-6 portfolio-item filter-card">
             <a href="">
-              <img src="img/portfolio/card3.jpg" alt="">
+              <img src="img/portfolio/21435406_1963280803954267_1636523565027164160_n.jpg" alt="">
               <div class="details">
                 <h4>Card 3</h4>
                 <span>Alored dono par</span>
@@ -329,7 +371,7 @@
 
           <div class="col-lg-3 col-md-6 portfolio-item filter-app">
             <a href="">
-              <img src="img/portfolio/app2.jpg" alt="">
+              <img src="img/portfolio/25005997_137605843621973_3653158453079179264_n.jpg" alt="">
               <div class="details">
                 <h4>App 2</h4>
                 <span>Alored dono par</span>
@@ -339,7 +381,7 @@
 
           <div class="col-lg-3 col-md-6 portfolio-item filter-logo">
             <a href="">
-              <img src="img/portfolio/logo1.jpg" alt="">
+              <img src="img/portfolio/25016218_178543289549683_4426701510700695552_n.jpg" alt="">
               <div class="details">
                 <h4>Logo 1</h4>
                 <span>Alored dono par</span>
