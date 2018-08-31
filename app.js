@@ -3,7 +3,7 @@ var app                            = express();
 var bodyParser                     = require("body-parser");
 var fs                             = require("fs");
 var cmd                            = require('node-cmd');
-//var StlThumbnailer                 = require('node-stl-thumbnailer');
+var StlThumbnailer                 = require('node-stl-thumbnailer');
 var fileUpload                     = require("express-fileupload");
 var unzip                          = require("unzip-stream");
 const methodOverride               = require('method-override');
@@ -19,12 +19,17 @@ const GoogleStrategy               = require('passport-google-oauth20').Strategy
 const cookieSession                = require("cookie-session");
 const Razorpay                     = require('razorpay');
 var request                        = require('request');
-// var nodemailer                     = require("nodemailer");
+var nodemailer                     = require("nodemailer");
 // var admin                       = require("./config/adminpanel.js");
-// var LocalStrategy               = require ("passport-local");
-// var passportLocalMongoose       = require("passport-local-mongoose");
+var LocalStrategy                  = require ("passport-local");
+var passportLocalMongoose          = require("passport-local-mongoose");
 // var adminroutes                 = require("./config/adminpanel.js");
-//var keys                           = require('./config/keys.js');
+var keys                           = require('./config/keys.js');
+var download                       = require('download');
+//stljs                            = require('stljs');
+const session                      = require('express-session');
+const cookieParser                 = require('cookie-parser');
+
 
 
 // set view engine
@@ -32,10 +37,17 @@ app.set('view engine', 'ejs');
 
 
 // set up session cookies
-app.use(cookieSession({
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-    keys: ['fuckronaldo']
+// app.use(cookieSession({
+//     maxAge: 7 * 24 * 60 * 60 * 1000,
+//     keys: ['fuckronaldo']
+// }));
+app.use(session({ 
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
 }));
+
+
 
 
 //set-up method-override
@@ -52,6 +64,10 @@ app.use(fileUpload());
 
 app.use(express.static("public"));
 
+
+app.use(cookieParser());
+
+
 // initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
@@ -59,22 +75,25 @@ app.use(passport.session());
 
 // connect to mongodb database on mlab
 mongoose.connect("mongodb://swastik1:swastik1@ds161780.mlab.com:61780/swastik_oauth", function(){
-    console.log("connected to mongodb");
+console.log("connected to mongodb");
 });
 
 
 // defining  user Schema
 var userSchema = new mongoose.Schema({
   username           : String,
+  googleusername     : String,
   googleId           : String,
   emailId            : String,
-  photo              : String
+  photo              : String,
+  password           : String,
+  mobileNo           : String
 });
 
 
 // defining uploadedfile schema
 var uploadSchema = new mongoose.Schema({
-    googleId         : String,
+    emailId           : String,
     fileName         : String,
     printTime        : String,
     weight           : String,
@@ -91,7 +110,7 @@ var uploadSchema = new mongoose.Schema({
 
 // defining cart Schema
 var cartSchema  = new mongoose.Schema({
-    googleId         : String,
+    emailId          : String,
     cartFileName     : String,
     price            : String,
     quantity         : String,
@@ -143,17 +162,40 @@ var orderSchema = new mongoose.Schema({
 });
 
 
+// contact us schema
+var contactformSchema = new mongoose.Schema({
+    name             : String,
+    email            : String,
+    subject          : String,
+    message          : String
+});
+
+
+var testuserSchema = new mongoose.Schema({
+  username           : String,
+  googleId           : String,
+  emailId            : String,
+  photo              : String,
+  password           : String,
+  mobileNo           : String
+});
+
+userSchema.plugin(passportLocalMongoose);
+
+// var User = mongoose.model("TestUser", testuserSchema);
+
 // adminSchema.plugin(passportLocalMongoose);
 
 // var Admin   = mongoose.model("Admin", adminSchema);
 
 
 // creating model @ RapidUser
-var User    = mongoose.model("User", userSchema);
-var Upload  = mongoose.model("Upload", uploadSchema);
-var Cart    = mongoose.model("Cart", cartSchema);  
-var Payment = mongoose.model("Payment", paymentSchema);
-var Order   = mongoose.model("Order", orderSchema);
+var User        = mongoose.model("User", userSchema);
+var Upload      = mongoose.model("Upload", uploadSchema);
+var Cart        = mongoose.model("Cart", cartSchema);  
+var Payment     = mongoose.model("Payment", paymentSchema);
+var Order       = mongoose.model("Order", orderSchema);
+var Contactform = mongoose.model("Contactform", contactformSchema); 
 
 
 // app.use(require("express-session")({
@@ -170,20 +212,40 @@ passport.serializeUser((user, done) => {
 });
 
 
-// deserialize user
+//deserialize user
 passport.deserializeUser((id, done) => {
     User.findById(id).then((user) => {
         done(null, user);
     });
 });
+// passport.deserializeUser(function(user, done) {
+//   done(null, user);
+// });
+
+
+passport.use('local', new LocalStrategy(User.authenticate()));
+// passport.use(new LocalStrategy(
+//   function(username, password, done) {
+//     User.findOne({ username: username }, function (err, user) {
+//       if (err) { return done(err); }
+//       if (!user) {
+//         return done(null, false, { message: 'Incorrect username.' });
+//       }
+//       if (!user.validPassword(password)) {
+//         return done(null, false, { message: 'Incorrect password.' });
+//       }
+//       return done(null, user);
+//     });
+//   }
+// ));
 
 
 // passport middleware
-passport.use(new GoogleStrategy({
+passport.use('google', new GoogleStrategy({
     clientID: keys.google.clientId,
     clientSecret: keys.google.clientSecret,
     callbackURL: "http://www.iamrapid.com/auth/google/redirect"
-  }, (accessToken, refreshToken, profile, done) => {
+ }, (accessToken, refreshToken, profile, done) => {
       //console.log(refreshToken);
         // check if user already exists in our own db
         User.findOne({googleId: profile.id}).then((currentUser) => {
@@ -192,7 +254,7 @@ passport.use(new GoogleStrategy({
                 //console.log('user is: ', currentUser);
                 done(null, currentUser);
             } else {
-                //console.log(profile.emails[0].value);
+                // console.log(profile.emails[0].value);
                 // if not, create user in our db
                 new User({
                     googleId: profile.id,
@@ -270,11 +332,72 @@ app.get('/auth/google/redirect', passport.authenticate('google'), function(req,r
     res.redirect("/uploadfile");
 });
 
+
+app.get("/register", function (req, res){
+    res.render("signup");
+});
+
+app.post ("/register", function (req, res){
+    var email = req.body.email;
+    var username = req.body.username;
+    User.find({emailId: email}, function(err, existingEmail){
+        if (err){
+            console.log(err);
+            res.render("somethingwentwrong");
+        }
+        else{
+            console.log(existingEmail);
+            if(existingEmail.length == 0){
+                User.find({username: username}, function (err, existingUser){
+                    if (err){
+                        console.log (err);
+                        res.render("somethingwentwrong");
+                    }
+                    else{
+                        if (existingUser.length == 0){
+                            User.register(new User({username: req.body.username, emailId: req.body.email, mobileNo: req.body.mobileNo}), req.body.password, function (err, user){
+                                if (err){
+                                    console.log(err);
+                                    return res.render ("somethingwentwrong");
+                                }
+                                else{
+                                    passport.authenticate("local")(req, res, function(){
+                                        res.redirect("/");
+                                    });
+                                }
+                            });       
+                        }
+                        else{
+                            res.send("username already registered");
+                        }
+                    }
+                });
+            }
+            else{
+                res.send("emailId already registered");
+            }
+        }
+    });
+});
+
+
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+
+app.post('/login', passport.authenticate(['local','google'], {
+  successReturnToOrRedirect: '/uploadfile',
+  failureRedirect: '/register'
+}));
+
+
+
 const authCheck = (req, res, next) => {
     console.log(req.user);
     if(!req.user){
         //console.log(req.user);
-        res.redirect('/');
+        res.redirect('/register');
     } else {
         next();
     }
@@ -289,12 +412,15 @@ const authCheck = (req, res, next) => {
 // upload file get route
 app.get("/uploadfile", authCheck, function(req, res) {
     var cartItems = 2;
-    Upload.find({googleId: req.user.googleId}, function(err,obj){
+    console.log("req.user", req.user);
+    // console.log(typeof req.user);
+    // console.log("req.body ", req.body);
+    Upload.find({emailId: req.user.emailId} , function(err,obj){
         if(err){
             console.log(err);
         }
         else{
-            //console.log(obj);
+            // console.log(obj);
            res.render("new", {obj:obj,cartItems: cartItems});
         }
     });
@@ -318,6 +444,9 @@ app.get("/uploadfile", authCheck, function(req, res) {
 //upload STL file post route
 app.post('/upload', authCheck, (req, res) => {
     //console.log(req);
+    console.log("from upload post route", req.user.emailId, "done");
+    // var email = String(req.user.emaiId);
+    console.log(typeof req.user.emailId);
     if (!req.files)
         return res.status(400).send('No files were uploaded.');
      
@@ -330,7 +459,7 @@ app.post('/upload', authCheck, (req, res) => {
           return res.status(500).send(err);
         if(sampleFile.mimetype ==='application/octet-stream')
         {
-            //stltoimg();
+            stltoimg();
             var cmdURL = commandURL();
             var file = editJson("../Cura/resources/machines/fdmprinter.json");
             file.get().categories.resolution.settings.layer_height.default = 0.2;
@@ -358,7 +487,7 @@ app.post('/upload', authCheck, (req, res) => {
                         
                 //     }
                 // })
-                   Upload.create({googleId: req.user.googleId, fileName: sampleFileName, printTime: dataTime, weight: dataWeight, price: price, material: "PLA(white)", lh: "0.2", infillDensity: "1.1667", infillPercentage: "30%", quantity: "1"}, function(err, newupload){
+                   Upload.create({emailId: req.user.emailId, fileName: sampleFileName, printTime: dataTime, weight: dataWeight, price: price, material: "PLA(white)", lh: "0.2", infillDensity: "1.1667", infillPercentage: "30%", quantity: "1"}, function(err, newupload){
                        if(err){
                            console.log (err);
                        }
@@ -464,7 +593,7 @@ app.get("/upload/zip", authCheck, function(req, res) {
 
 app.get("/mycart", authCheck, function (req, res) {
     //console.log(req.user);
-    Cart.find ({googleId: req.user.googleId}, function (err, obj){
+    Cart.find ({emailId: req.user.emailId}, function (err, obj){
         if(err) {
             console.log (err);
         } else {
@@ -474,7 +603,7 @@ app.get("/mycart", authCheck, function (req, res) {
             });
             console.log(totalprice);
             var additionaldata = {totalp: totalprice, username: req.user.username, email: req.user.emailId, image: req.user.photo}
-            res.render ("cart", {obj: obj, additionaldata: additionaldata});
+            res.render ("carttamplete", {obj: obj, additionaldata: additionaldata});
         }
     });
 });
@@ -539,7 +668,7 @@ app.post("/AddToCart/:id", authCheck, function(req,res){
     var layerheighttocart = req.body.layerheighttocart;
     var infilltocart = req.body.infilltocart;
     var newCart = {name: name, price: Price, quantity: qnt};
-    Cart.create({googleId: req.user.googleId, cartFileName: name, price: Price, quantity: qnt, layerHeight : layerheighttocart, infill: infilltocart }, function(err, newlyCreated){
+    Cart.create({emailId: req.user.emailId, cartFileName: name, price: Price, quantity: qnt, layerHeight : layerheighttocart, infill: infilltocart }, function(err, newlyCreated){
         if(err){
             console.log(err);
         }
@@ -586,11 +715,12 @@ app.get("/payment/:id", function (req, res){
             }
             
             else{
-                Cart.find({googleId: req.user.googleId}, function (err,found){
+                Cart.find({emailId: req.user.emailId}, function (err,found){
                     //console.log("FOUNDSOFIFHSUO", found);
                     found.forEach(function(findeach){
                         Order.create({productname: findeach.cartFileName, layerheight: findeach.layerHeight, infill: findeach.infill , emailId: req.user.emailId , paymentId: createdpayment.id, amount: findeach.price, status: parsedfile.status, quantity: findeach.quantity}, function(err, createdorder){
                             if(err){
+                                console.log("couldnt create order")
                                 console.log(err);
                             }
                             else {
@@ -641,7 +771,7 @@ app.get("/payment/:id", function (req, res){
 
 
 app.get("/iamrapidadmin", function(req, res){
-    if (req.user.emailId === "swastik.singh0301@gmail.com" || req.user.emailId === "shashwat@iamrapid.com" || req.user.emailId === "sushant@iamrapid.com" ){
+   if (req.user.emailId === "swastik.singh0301@gmail.com" || req.user.emailId === "shashwat@iamrapid.com" || req.user.emailId === "sushant@iamrapid.com" ){
         Order.find({}, function(err,obj){
             if(err){
                 console.log(err);
@@ -870,9 +1000,6 @@ app.get("/uploadfile/modify-infill-percentage/:infill/:lh/:name/:id/:material", 
                 res.send(api);
             }
         });
-        
-        
-
     });
 })
 
@@ -1100,57 +1227,35 @@ app.get("/uploadfile/decrease-quantity/:id/:quantity", function (req, res){
 });
 
 
-
-
-
-// app.use(adminroutes);
-
-
-
-
-// app.get("/iamrapid/admin/login", function(req, res){
-//   res.render("adminlogin"); 
-// });
-// //login logic
-// //middleware
-// app.post("/iamrapid/admin/login", passport.authenticate("local", {
-//     successRedirect: "/iamrapid/admin",
-//     failureRedirect: "/iamrapid/admin/login"
-// }) ,function(req, res){
-// });
-
-
-
-// app.get("/iamrapid/admin", isLoggedIn, function (req, res){
-//   res.render("adminpanel");
-// });
-
-
-// function isLoggedIn(req, res, next){
-//     if(req.isAuthenticated()){
-//         return next();
-//     }
-//     res.redirect("/iamrapid/admin/login");
-// }
+// contact form submit post route
+app.post("/contactform", function(req, res){
+    console.log(req.body);
+    Contactform.create({name: req.body.name, email: req.body.email, subject: req.body.subject, message: req.body.message}, function(err, newcontactform){
+        if (err){
+          res.render ("somethingwentwrong")
+        }
+        else {
+            res.redirect("/");
+        }
+    });
+});
 
 
 
 
+//test 
+// app.get ("/stl-img", function (req,res){
+//     stljs.imageify('./public/uploads/testModel.stl', { width: 200, height: 100, dst: 'teapot.png' })
+// })
 
-
-
-// function to run command in terminal
-// function commandURL(){
-//     return 'cd CuraEngine && \ ./build/CuraEngine slice -v -j ../Cura/resources/machines/dual_extrusion_printer.json -o "output/test.gcode" -e1 -s infill_line_distance=0 -e0 -l "../public/uploads/' + sampleFileName + '"';
-// }
 
 function commandURL(name){
-    return 'cd ../CuraEngine && \ ./build/CuraEngine slice -v -j ../Cura/resources/machines/dual_extrusion_printer.json -o "output/test.gcode" -e1 -s infill_line_distance=0 -e0 -l "../pricing-3-d-Models/public/uploads/' + sampleFileName + '"';
+    return 'cd ../CuraEngine && \ ./build/CuraEngine slice -v -j ../Cura/resources/machines/dual_extrusion_printer.json -o "output/test.gcode" -e1 -s infill_line_distance=0 -e0 -l "../pricing-3-d-models/public/uploads/' + sampleFileName + '"';
 }
 
 
 function modifyCommandURL(name){
-    return 'cd ../CuraEngine && \ ./build/CuraEngine slice -v -j ../Cura/resources/machines/dual_extrusion_printer.json -o "output/test.gcode" -e1 -s infill_line_distance=0 -e0 -l "../pricing-3-d-Models/public/uploads/' + name + '"';
+    return 'cd ../CuraEngine && \ ./build/CuraEngine slice -v -j ../Cura/resources/machines/dual_extrusion_printer.json -o "output/test.gcode" -e1 -s infill_line_distance=0 -e0 -l "../pricing-3-d-models/public/uploads/' + name + '"';
 }
 
 
