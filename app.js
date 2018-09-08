@@ -19,13 +19,13 @@ const GoogleStrategy               = require('passport-google-oauth20').Strategy
 const cookieSession                = require("cookie-session");
 const Razorpay                     = require('razorpay');
 var request                        = require('request');
-var nodemailer                     = require("nodemailer");
+//var nodemailer                     = require("nodemailer");
 // var admin                       = require("./config/adminpanel.js");
 var LocalStrategy                  = require ("passport-local");
 var passportLocalMongoose          = require("passport-local-mongoose");
 // var adminroutes                 = require("./config/adminpanel.js");
 var keys                           = require('./config/keys.js');
-var download                       = require('download');
+//var download                       = require('download');
 //stljs                            = require('stljs');
 const session                      = require('express-session');
 const cookieParser                 = require('cookie-parser');
@@ -74,8 +74,8 @@ app.use(passport.session());
 
 
 // connect to mongodb database on mlab
-mongoose.connect("mongodb://swastik1:swastik1@ds161780.mlab.com:61780/swastik_oauth", function(){
-console.log("connected to mongodb");
+mongoose.connect("mongodb://test:testdb1@ds237072.mlab.com:37072/swastiktest", function(){
+    console.log("connected to mongodb");
 });
 
 
@@ -87,7 +87,8 @@ var userSchema = new mongoose.Schema({
   emailId            : String,
   photo              : String,
   password           : String,
-  mobileNo           : String
+  mobileNo           : String,
+  address            : String
 });
 
 
@@ -158,7 +159,8 @@ var orderSchema = new mongoose.Schema({
   paymentId          : String,
   amount             : String,
   status             : String,
-  quantity           : String
+  quantity           : String,
+  address            : String
 });
 
 
@@ -242,10 +244,10 @@ passport.use('local', new LocalStrategy(User.authenticate()));
 
 // passport middleware
 passport.use('google', new GoogleStrategy({
-    clientID: keys.google.clientId,
-    clientSecret: keys.google.clientSecret,
-    callbackURL: "http://www.iamrapid.com/auth/google/redirect"
- }, (accessToken, refreshToken, profile, done) => {
+    clientID: '178103621031-3jafsl1iu9p9of3i6imai3svtdobvk8h.apps.googleusercontent.com',
+    clientSecret: 'ldzQDxrOIkZGdZLTpjBk5D6H',
+    callbackURL: "https://sadfdf-swastik0310.c9users.io/auth/google/redirect"
+  }, (accessToken, refreshToken, profile, done) => {
       //console.log(refreshToken);
         // check if user already exists in our own db
         User.findOne({googleId: profile.id}).then((currentUser) => {
@@ -310,11 +312,31 @@ var fileNameArray=[];
 
 // home page
 app.get("/", function (req,res){
-   res.render ("index");
+    //console.log(req.user);
+    var user;
+     if (req.user){
+        user = req.user.username;
+        var name = user + " ";
+        var i;
+        var shortName;
+        for (i= 0; i < name.length; i++){
+            if (name[i] == " "){
+                user = name.slice(0,i);
+                break;
+            }
+        }
+  }
+  else{
+      user= false;
+  }
+  console.log(user);
+   res.render ("index",{user: user});
 });
 
 
 // hire a designer route
+
+
 app.get ("/contact-us", function (req, res){
    res.render ("hireDesigner"); 
 });
@@ -415,13 +437,29 @@ app.get("/uploadfile", authCheck, function(req, res) {
     console.log("req.user", req.user);
     // console.log(typeof req.user);
     // console.log("req.body ", req.body);
+        var user;
+     if (req.user){
+        user = req.user.username;
+        var name = user + " ";
+        var i;
+        var shortName;
+        for (i= 0; i < name.length; i++){
+            if (name[i] == " "){
+                user = name.slice(0,i);
+                break;
+            }
+        }
+  }
+  else{
+      user= false;
+  }
     Upload.find({emailId: req.user.emailId} , function(err,obj){
         if(err){
             console.log(err);
         }
         else{
             // console.log(obj);
-           res.render("new", {obj:obj,cartItems: cartItems});
+           res.render("new", {obj:obj,cartItems: cartItems, user: user});
         }
     });
     // User.find({}, function(err, obj){
@@ -447,96 +485,102 @@ app.post('/upload', authCheck, (req, res) => {
     console.log("from upload post route", req.user.emailId, "done");
     // var email = String(req.user.emaiId);
     console.log(typeof req.user.emailId);
-    if (!req.files)
-        return res.status(400).send('No files were uploaded.');
+    if (!req.files){
+        return res.status(400).render('nofileuploaded.');
+    }
+    else{ 
+        var sampleFile = req.files.sampleFile;
+        sampleFileName = req.files.sampleFile.name;
+        var extention = sampleFileName.slice(-4);
+        console.log(sampleFileName);
+        if (extention == ".stl" || extention == ".STL"){
+            sampleFile.mv('public/uploads/'+ sampleFileName, function(err) {
+                if (err)
+                    return res.status(500).render("somethingwentwrong");
+                if(sampleFile.mimetype ==='application/octet-stream')
+                {
+                    stltoimg();
+                    var cmdURL = commandURL();
+                    var file = editJson("../Cura/resources/machines/fdmprinter.json");
+                    file.get().categories.resolution.settings.layer_height.default = 0.2;
+                    file.get().categories.infill.settings.infill_sparse_density.children.infill_line_distance.default = 1.1667;
+                    file.save();
+                    cmd.get(cmdURL, function (){
+                        var dataTime = fs.readFileSync("outputTime.txt", "utf8");
+                        console.log(dataTime);
+                        var dataWeight = fs.readFileSync("outputWeight.txt", "utf8");
+                        console.log(dataWeight);
+                        var weight = Number(dataWeight);
+                        weight = weight * 1.25 / 1000;
+                        var finalweight = Math.ceil(weight) + 2;
+                        var price = finalweight*10 + Number(dataTime)*20 + 100;
+                        var newRapid = {fileName: sampleFileName, printTime: dataTime, weight: dataWeight};
+                        // Upload.findOne({googleId : req.user.googleId}, function (err, foundupload){
+                        //     if(foundupload){
+                        //         Upload.create({googleId: req.user.googleId, fileName: sampleFileName, printTime: dataTime, weight: dataWeight}, function (err, newupload){
+                        //             if (err){
+                        //                 console.log(err);
+                        //             }
+                        //         });
+                        //     }
+                        //     else{
+                                
+                        //     }
+                        // })
+                        Upload.create({emailId: req.user.emailId, fileName: sampleFileName, printTime: dataTime, weight: dataWeight, price: price, material: "PLA(white)", lh: "0.2", infillDensity: "1.1667", infillPercentage: "30%", quantity: "1"}, function(err, newupload){
+                           if(err){
+                               console.log (err);
+                           }
+                           else{
+                               //console.log(newupload);
+                               res.redirect("/uploadfile");
+                           }
+                        });
+                    });
+                    // User.create(newRapid, function(err, newlyCreated){
+                    //     if(err){
+                    //         console.log(err);
+                    //     }
+                    //     else {
+                    //     }
+                    // });
      
-    var sampleFile = req.files.sampleFile;
-    sampleFileName = req.files.sampleFile.name;
-    console.log(sampleFileName);
-    
-    sampleFile.mv('public/uploads/'+ sampleFileName, function(err) {
-        if (err)
-          return res.status(500).send(err);
-        if(sampleFile.mimetype ==='application/octet-stream')
-        {
-            stltoimg();
-            var cmdURL = commandURL();
-            var file = editJson("../Cura/resources/machines/fdmprinter.json");
-            file.get().categories.resolution.settings.layer_height.default = 0.2;
-            file.get().categories.infill.settings.infill_sparse_density.children.infill_line_distance.default = 1.1667;
-            file.save();
-            cmd.get(cmdURL, function (){
-                var dataTime = fs.readFileSync("outputTime.txt", "utf8");
-                console.log(dataTime);
-                var dataWeight = fs.readFileSync("outputWeight.txt", "utf8");
-                console.log(dataWeight);
-                var weight = Number(dataWeight);
-                weight = weight * 1.25 / 1000;
-                var finalweight = Math.ceil(weight) + 2;
-                var price = finalweight*10 + Number(dataTime)*20 + 100;
-                var newRapid = {fileName: sampleFileName, printTime: dataTime, weight: dataWeight};
-                // Upload.findOne({googleId : req.user.googleId}, function (err, foundupload){
-                //     if(foundupload){
-                //         Upload.create({googleId: req.user.googleId, fileName: sampleFileName, printTime: dataTime, weight: dataWeight}, function (err, newupload){
-                //             if (err){
-                //                 console.log(err);
-                //             }
-                //         });
-                //     }
-                //     else{
-                        
-                //     }
-                // })
-                   Upload.create({emailId: req.user.emailId, fileName: sampleFileName, printTime: dataTime, weight: dataWeight, price: price, material: "PLA(white)", lh: "0.2", infillDensity: "1.1667", infillPercentage: "30%", quantity: "1"}, function(err, newupload){
-                       if(err){
-                           console.log (err);
-                       }
-                       else{
-                           //console.log(newupload);
-                           res.redirect("/uploadfile");
-                       }
-                   });
-
-                });
-                // User.create(newRapid, function(err, newlyCreated){
-                //     if(err){
-                //         console.log(err);
-                //     }
-                //     else {
-                //     }
-                // });
- 
-        }
-        else if(sampleFile.mimetype ==='application/x-zip-compressed')
-        {
-            //unzipping
-            fs.createReadStream("public/uploads/"+sampleFileName)
-            .pipe(unzip.Parse())
-            .on('entry', (entry)=> {
-                 var filePath = entry.path;
-                 var fileType = filePath.slice(-4);
-                 var fileName = filePath.slice(6,filePath.length);
-                 var type = entry.type; // 'Directory' or 'File'
-                 var size = entry.size; // might be undefined in some archives
-                 if (fileType === ".stl" || fileType === ".STL") {
-                        //console.log("Choco");
-                        sampleFileName=fileName;
-                        //console.log(sampleFileName);
-                        fileNameArray.push(sampleFileName);
-                        entry.pipe(fs.createWriteStream("public/uploads/"+fileName));
-                  } 
-                  else {
-                        entry.autodrain();
-                  }
+                }
+                else if(sampleFile.mimetype ==='application/x-zip-compressed')
+                {
+                    //unzipping
+                    fs.createReadStream("public/uploads/"+sampleFileName)
+                    .pipe(unzip.Parse())
+                    .on('entry', (entry)=> {
+                        var filePath = entry.path;
+                        var fileType = filePath.slice(-4);
+                        var fileName = filePath.slice(6,filePath.length);
+                        var type = entry.type; // 'Directory' or 'File'
+                        var size = entry.size; // might be undefined in some archives
+                        if (fileType === ".stl" || fileType === ".STL") {
+                            //console.log("Choco");
+                            sampleFileName=fileName;
+                            //console.log(sampleFileName);
+                            fileNameArray.push(sampleFileName);
+                            entry.pipe(fs.createWriteStream("public/uploads/"+fileName));
+                        } 
+                        else {
+                            entry.autodrain();
+                        }
+                    });
+                    res.redirect("/upload/zip");
+                }
+                else{
+                    console.log("Enter .stl file");
+                    sampleFileName = '';
+                    res.redirect("/");
+                }
             });
-            res.redirect("/upload/zip");
         }
         else{
-            console.log("Enter .stl file");
-            sampleFileName = '';
-            res.redirect("/");
+            res.render("uploadstlfile");
         }
-    });
+    }
 });
 
 
@@ -593,6 +637,22 @@ app.get("/upload/zip", authCheck, function(req, res) {
 
 app.get("/mycart", authCheck, function (req, res) {
     //console.log(req.user);
+    var user;
+     if (req.user){
+        user = req.user.username;
+        var name = user + " ";
+        var i;
+        var shortName;
+        for (i= 0; i < name.length; i++){
+            if (name[i] == " "){
+                user = name.slice(0,i);
+                break;
+            }
+        }
+  }
+  else{
+      user= false;
+  }
     Cart.find ({emailId: req.user.emailId}, function (err, obj){
         if(err) {
             console.log (err);
@@ -603,7 +663,7 @@ app.get("/mycart", authCheck, function (req, res) {
             });
             console.log(totalprice);
             var additionaldata = {totalp: totalprice, username: req.user.username, email: req.user.emailId, image: req.user.photo}
-            res.render ("carttamplete", {obj: obj, additionaldata: additionaldata});
+            res.render ("carttamplete", {obj: obj, additionaldata: additionaldata, user: user});
         }
     });
 });
@@ -706,7 +766,7 @@ app.post("/purchase", function (req, res){
 
 
 
-app.get("/payment/:id", function (req, res){
+app.get("/payment/:id", authCheck, function (req, res){
     request('https://rzp_test_2ZhVhf0meouzDo:dBKHC7ZWSzapnbS0Sm2kK8vs@api.razorpay.com/v1/payments/'+req.params.id, function (error, response, body) {
         var parsedfile=JSON.parse(body);
         Payment.create(parsedfile, function(err, createdpayment){
@@ -792,6 +852,87 @@ app.get("/iamrapidadmin", function(req, res){
    }
 });
 
+app.get("/fill-address", authCheck, function (req, res){
+        var user;
+     if (req.user){
+        user = req.user.username;
+        var name = user + " ";
+        var i;
+        var shortName;
+        for (i= 0; i < name.length; i++){
+            if (name[i] == " "){
+                user = name.slice(0,i);
+                break;
+            }
+        }
+  }
+  else{
+      user= false;
+  }
+    res.render("filladdress", {user: user});
+})
+
+app.post("/fill-address", authCheck, function (req, res){
+    var address = req.body.address;
+    var address2= req.body.address2;
+    var city = req.body.city;
+    var pincode = req.body.pincode;
+    var state = req.body.state;
+    var country = req.body.country;
+    var finaladdress = address + " " + address2 + " " + city + " " + " " + state + " " + country + " " + pincode;
+    User.find({emailId: req.user.emailId}, function (err, found){
+        if(err){
+            res.render("somethingwentwrong");
+        }
+        else{
+            found.forEach(function(findEach){
+                User.findByIdAndUpdate(findEach.id, {address: finaladdress}, function (err, updated){
+                    if(err){
+                        res.render("somethingwentwrong");
+                    }
+                    else{
+                        console.log("address added");
+                        console.log(updated);
+                        res.redirect("/complete-payment")
+                    }
+                })
+            })
+        }
+        
+    })
+});
+
+app.get ("/complete-payment", authCheck, function(req, res){
+    var user;
+    if (req.user){
+        user = req.user.username;
+        var name = user + " ";
+        var i;
+        var shortName;
+        for (i= 0; i < name.length; i++){
+            if (name[i] == " "){
+                user = name.slice(0,i);
+                break;
+            }
+        }
+    }
+    else{
+        user= false;
+    }
+    Cart.find ({emailId: req.user.emailId}, function (err, obj){
+    if(err) {
+        console.log (err);
+    } else {
+        var totalprice = 0;
+        obj.forEach(function(data){
+            totalprice = totalprice + parseInt(data.price);
+        });
+        console.log(totalprice);
+        var additionaldata = {totalprice: totalprice, username: req.user.username, email: req.user.emailId, image: req.user.photo}
+        res.render ("completepayment", {obj: obj, additionaldata: additionaldata, user: user});
+        }
+    });
+})
 
 app.get("/uploadfile/modify-layer-height/:lh/:infill/:name/:id/:material", function (req, res){
     console.log(req.params.lh);
@@ -884,9 +1025,6 @@ app.get("/uploadfile/modify-layer-height/:lh/:infill/:name/:id/:material", funct
                 res.send(api);
             }
         });
-        
-        
-
     });
 })
 
@@ -1321,6 +1459,6 @@ function stltoimg(){
 }
 
 
-app.listen(80,function(){
+app.listen(process.env.PORT,process.env.IP,function(){
     console.log("Server is Up..!!"); 
 });

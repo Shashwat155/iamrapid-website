@@ -83,6 +83,68 @@
       </nav><!-- #nav-menu-container -->
     </div>
   </header><!-- #header -->
+		<!--<nav class="colorlib-nav" role="navigation">-->
+		<!--	<div class="top-menu">-->
+		<!--		<div class="container">-->
+		<!--			<div class="row">-->
+		<!--				<div class="col-sm-7 col-md-9">-->
+		<!--					<div id="colorlib-logo"><a href="index.html">Footwear</a></div>-->
+		<!--				</div>-->
+		<!--				<div class="col-sm-5 col-md-3">-->
+		<!--	            <form action="#" class="search-wrap">-->
+		<!--	               <div class="form-group">-->
+		<!--	                  <input type="search" class="form-control search" placeholder="Search">-->
+		<!--	                  <button class="btn btn-primary submit-search text-center" type="submit"><i class="icon-search"></i></button>-->
+		<!--	               </div>-->
+		<!--	            </form>-->
+		<!--	         </div>-->
+		<!--         </div>-->
+		<!--			<div class="row">-->
+		<!--				<div class="col-sm-12 text-left menu-1">-->
+		<!--					<ul>-->
+		<!--						<li><a href="index.html">Home</a></li>-->
+		<!--						<li class="has-dropdown active">-->
+		<!--							<a href="men.html">Men</a>-->
+		<!--							<ul class="dropdown">-->
+		<!--								<li><a href="product-detail.html">Product Detail</a></li>-->
+		<!--								<li><a href="cart.html">Shopping Cart</a></li>-->
+		<!--								<li><a href="checkout.html">Checkout</a></li>-->
+		<!--								<li><a href="order-complete.html">Order Complete</a></li>-->
+		<!--								<li><a href="add-to-wishlist.html">Wishlist</a></li>-->
+		<!--							</ul>-->
+		<!--						</li>-->
+		<!--						<li><a href="women.html">Women</a></li>-->
+		<!--						<li><a href="about.html">About</a></li>-->
+		<!--						<li><a href="contact.html">Contact</a></li>-->
+		<!--						<li class="cart"><a href="cart.html"><i class="icon-shopping-cart"></i> Cart [0]</a></li>-->
+		<!--					</ul>-->
+		<!--				</div>-->
+		<!--			</div>-->
+		<!--		</div>-->
+		<!--	</div>-->
+		<!--	<div class="sale">-->
+		<!--		<div class="container">-->
+		<!--			<div class="row">-->
+		<!--				<div class="col-sm-8 offset-sm-2 text-center">-->
+		<!--					<div class="row">-->
+		<!--						<div class="owl-carousel2">-->
+		<!--							<div class="item">-->
+		<!--								<div class="col">-->
+		<!--									<h3><a href="#">25% off (Almost) Everything! Use Code: Summer Sale</a></h3>-->
+		<!--								</div>-->
+		<!--							</div>-->
+		<!--							<div class="item">-->
+		<!--								<div class="col">-->
+		<!--									<h3><a href="#">Our biggest sale yet 50% off all summer shoes</a></h3>-->
+		<!--								</div>-->
+		<!--							</div>-->
+		<!--						</div>-->
+		<!--					</div>-->
+		<!--				</div>-->
+		<!--			</div>-->
+		<!--		</div>-->
+		<!--	</div>-->
+		<!--</nav>-->
 
 		<div class="breadcrumbs">
 			<div class="container">
@@ -99,12 +161,12 @@
 			<div class="container">
 				<div class="row row-pb-lg">
 					<div class="col-md-10 offset-md-1">
-						<div class="process-wrap">+
-							<div class="process text-center">
+						<div class="process-wrap">
+							<div class="process text-center active">
 								<p><span>01</span></p>
 								<h3>Shopping Cart</h3>
 							</div>
-							<div class="process text-center">
+							<div class="process text-center active">
 								<p><span>02</span></p>
 								<h3>Provide Address</h3>
 							</div>
@@ -117,80 +179,57 @@
 				</div>
 				<div class="row row-pb-lg">
 					
-					<div class="col-md-12">
-						<div class="product-name d-flex">
-							<div class="one-forth text-left px-4">
-								<span>Product Details</span>
-							</div>
-							<div class="one-eight text-center">
-								<span>Price</span>
-							</div>
-							<div class="one-eight text-center">
-								<span>Quantity</span>
-							</div>
-							<div class="one-eight text-center">
-								<span>Total</span>
-							</div>
-							<div class="one-eight text-center px-4">
-								<span>Remove</span>
-							</div>
-						</div>
-						<% var totalPrice = 0; %>
-					    <% obj.forEach(function(data){ %>
-					    <% totalPrice = totalPrice + Number(data.price); %>
-						<div class="product-cart d-flex">
-							<div class="one-forth">
-								<div class="product-img" style="background-image: url(<%= data.cartFileName %>.jpg);">
-								</div>
-								<div class="display-tc">
-									<h3>Product Name</h3>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<span class="price">Rs. <%= data.price %></span>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<input type="text" id="quantity" name="quantity" class="form-control input-number text-center" value="1" min="1" max="100" disabled>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<span class="price">Rs. <%= data.price %></span>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<a href= "/deletecart/<%=data._id%>" class="closed"></a>
-								</div>
-							</div>
-						</div>
-						<% }); %>
-					</div>
+
 				</div>
 				<div class="row row-pb-lg">
 					<div class="col-md-12">
 						<div class="total-wrap">
 							<div class="row">
+								<div class="col-sm-8">
+									<!--<form action = "#">-->
+									<!--	<div class="row form-group">-->
+									<!--		<div class="col-sm-9">-->
+									<!--			<input id = "address" type="text" name="address" class="form-control input-number" placeholder="Address">-->
+									<!--			<input id = "city" type="text" name="city" class="form-control input-number" placeholder="City">-->
+									<!--			<input id = "pincode" type="text" name="pincode" class="form-control input-number" placeholder="Pin Code">-->
+									<!--			<button id = "submit" type= "submit" value= "Submit" class= "btn btn-primary btn-block">Submit</button>-->
+									<!--		</div>-->
+									<!--		<div class="col-sm-3">-->
+									<!--		</div>-->
+									<!--	</div>-->
+									<!--</form>-->
+								</div>
 								<div class="col-sm-4 text-center">
 									<div class="total">
 										<div class="sub">
-											<p><span>Subtotal:</span> <span>Rs. <%= totalPrice %></span></p>
+											<p><span>Subtotal:</span> <span>Rs. <%= additionaldata.totalprice %></span></p>
 											<p><span>Delivery:</span> <span>Rs. 0.00</span></p>
 											<p><span>Discount:</span> <span>Rs. 0.00</span></p>
 										</div>
 										<div class="grand-total">
-											<p><span><strong>Total:</strong></span> <span>Rs. <%= totalPrice %></span></p>
+											<p><span><strong>Total:</strong></span> <span>Rs. <%= additionaldata.totalprice %></span></p>
 										</div>
 									</div>
-										<a href = "/fill-address"><button id = "submit"  class= "btn btn-primary btn-block">Proceed</button></a>
 								</div>
 							</div>
 						</div>
 					</div>
 			<div style = "margin-left: 850px; margin-top: 20px;" >
+            <form  id = "pay" action="/purchase" method="POST">
+              <script
+                src="https://checkout.razorpay.com/v1/checkout.js"
+                data-key="rzp_test_2ZhVhf0meouzDo"
+                data-amount="<%= additionaldata.totalprice%>00"
+                data-buttontext="Pay"
+                data-name="IamRapid"
+                data-description="3D-printing"
+                data-image="<%=additionaldata.image%>"
+                data-prefill.name="<%=additionaldata.username%>"
+                data-prefill.email=""
+                data-theme.color="#F37254"
+              ></script>
+              <input type="hidden" value="Hidden Element" name="hidden">
+            </form>
             </div>
 				</div>
 			</div>
@@ -211,12 +250,30 @@
 		    </div>
 		  </footer><!-- #footer -->
 
-
 	</div>
 
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
 	</div>
+	
+	
+	
+	 <script>
+	// 	$('#submit').on('click', function(){
+	// 		var address = $('#address').val();
+	// 		var city = $('#city').val();
+	// 		var pincode = $('#pincode').val();
+	// 		var url = "/upload-user-address/" + address + "/" + city + "/" + pincode;
+ //          fetch(url)
+ //   	   .then(function(res){
+ //              console.log(res);
+ //              return res.json()
+ //           })
+ //           .then(function (data){
+            	
+ //           })
+	// 	})
+	</script>
 	
 	
 	
