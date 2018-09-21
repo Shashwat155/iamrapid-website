@@ -356,7 +356,23 @@ app.get('/auth/google/redirect', passport.authenticate('google'), function(req,r
 
 
 app.get("/register", function (req, res){
-    res.render("signup");
+    var user;
+ if (req.user){
+    user = req.user.username;
+    var name = user + " ";
+    var i;
+    var shortName;
+    for (i= 0; i < name.length; i++){
+        if (name[i] == " "){
+            user = name.slice(0,i);
+            break;
+        }
+    }
+}
+else{
+  user= false;
+}
+res.render("signup", {user, user});
 });
 
 app.post ("/register", function (req, res){
