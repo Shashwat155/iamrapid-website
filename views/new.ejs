@@ -1,74 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-    crossorigin="anonymous">
-  <link rel="stylesheet" href="/stylesheets/main.css">
-  <!--<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900' rel='stylesheet' type='text/css'>-->
-  <title>iamRapid</title>
-  <style>
-   
-  </style>
-</head>
+<% include partials/header %>
+<link rel="stylesheet" href="/stylesheets/main.css">
 
-<body>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--  <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+<!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"-->
+<!--    crossorigin="anonymous">-->
+<!--  <link rel="stylesheet" href="/stylesheets/main.css">-->
+  <!--<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900' rel='stylesheet' type='text/css'>-->
+<!--  <title>iamRapid</title>-->
+    <!-- Favicons -->
+<!--  <link href="img/favicon.png" rel="icon">-->
+<!--  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">-->
+
+
+<!--  <link rel="stylesheet" href="css/style.css">-->
+<!--  <style>-->
+<!--    @import url(https://fonts.googleapis.com/css?family=RobotoDraft:500);-->
+
+    
+
+
+<!--  </style>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"-->
+<!--    crossorigin="anonymous"></script>-->
  
   <!--navbar-------------------------------------------------------------------------------------------------------------------------->
-  <nav class="navbar fixed-top  navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">IamRapid</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+<!--  <header id="header"  style = "background-color: black;">-->
+<!--    <div class="container">-->
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <!--<li class="nav-item active">-->
-        <!--  <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>-->
-        <!--</li>-->
-        <!--<li class="nav-item">-->
-        <!--  <a class="nav-link" href="#">Contact Us</a>-->
-        <!--</li>-->
-        <!--<li class="nav-item">-->
-        <!--  <a class="nav-link" href="#">About Us</a>-->
-        <!--</li>-->
-      </ul>
-      <div class="form-inline my-2 my-lg-0">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><a href="/mycart" >Cart<span id="cartItems"></span> </a></button>
-      </div>
-    </div>
-  </nav>
+<!--      <div id="logo" class="pull-left">-->
+<!--        <a href="/"><img src="img/logo.png" alt="" title="" /></img></a>-->
+        <!-- Uncomment below if you prefer to use a text logo -->
+        <!--<h1><a href="#hero">Regna</a></h1>-->
+<!--      </div>-->
+
+<!--      <nav id="nav-menu-container">-->
+<!--        <ul class="nav-menu">-->
+<!--          <li><a href="/contact-us">Contact Us</a></li>-->
+<!--<%//console.log(user)%>-->
+<!--<%//if (user == false){%>-->
+<!--          <li><a href="/register">Login or Signup</a></li>-->
+<!--<%// }else{ %>-->
+<!--<li><a href="/">Hi <%=//user%></a></li>-->
+<!--<li><a href="/uploadfile">My uploads</a></li>-->
+<!--<li><a href="/mycart">Cart</a></li>-->
+<!--<%// } %>-->
+<!--        </ul>-->
+<!--      </nav><!-- #nav-menu-container -->
+<!--    </div>-->
+<!--  </header>-->
+  <!-- #header -->
 
   <!---------------------------------------------------------------------------------------------------------------------------------->
-  <div class="container marginNav">
+  <div class="container" style = "margin-top: 90px;">
     <hr>
-    <div class="row">
-      <div class="col-md-12 m-auto ">
-        <!--<h1 class="text-center display-4 my-4">Home Page</h1>-->
-        <!--<div class="custom-file mb-3" style = "border : 1px solid black">-->
-        <form action="/upload" method="POST" enctype="multipart/form-data" ref='uploadForm' 
-          id='uploadForm' class="fileupload ddColor " style=" height:200px">
-          <div class="custom-file mb-3 shadow ddColor" style="height:200px; border: 2px solid lightgray">
-            <input type="file" name="sampleFile" class="custom-file-input ddColor " onchange="form.submit()" style="height:200px"/>
-            <label for="file" class="custom-file-label ddColor" >
-              <p>  </p>
-              <h2> Drag and Drop files or Click to upload</h2>
-              <hr>
-              <h5>Supported file formats:</h5>
-              <p>only .stl files</p>
-            </label>
-          </div>
-        </form>
-        <!--</div>-->
-        
-        <hr>
-      </div>
-  
-      <div class="container">
+    <form action="/upload" method="POST" enctype="multipart/form-data" ref='uploadForm' id = "upload-file" style = "display: none;">
+      <input type="file" id= "stlfile" name="sampleFile" class="custom-file-input ddColor " style=""/>
+    </form>
+    <div class = "jumbotron" id = "uplpad-file-div" onclick="document.getElementById('stlfile').click();">
+      <h2> Drag and Drop files or Click to upload</h2>
+      <hr>
+      <h5>Supported file formats:</h5>
+      <p>only .stl files
+      (max size 25 MB)</p>
+    </div>
+    <hr>
+  </div>
+  <div class="container">
         <div class="row">
           <% var counter = 0; %>
           <% obj.forEach(function(data){ %>
@@ -163,11 +171,11 @@
                       </div>
                       <div class="qty-input">
                         <i id="qtyless<%=counter.toString()%>" class="less">-</i>
-                          <input id="qty<%=counter.toString()%>" type="text" value="1" disabled/>
+                          <input id="qty<%=counter.toString()%>" type="text" value="<%=data.quantity%>" disabled/>
                         <i id="qtymore<%=counter.toString()%>" class="more">+</i>
                       </div>
                     </div> 
-                  <form action="/AddToCart/<%=data._id%>" id="<%=data._id%>" method="POST">
+                  <form action="/AddToCart/<%=data._id%>" id="<%=data._id%>" method="POST" style = "padding-bottom: 8px;">
                     <input type="text" name="quantity"  id="quantity<%=counter.toString()%>" value="1"  style="display : none">
                     <input type="text" id="totalPrice<%=counter.toString()%>"  name="Price"  value="<%=Math.ceil(20*Number(data.printTime)+(10*Math.ceil(Number(data.weight)*0.00125+2))+100)%>"  style="display : none">
                     <input type="text" id="finalPrice<%=counter.toString()%>"  name="finalPrice"  value="<%=Math.ceil(20*Number(data.printTime)+(10*Math.ceil(Number(data.weight)*0.00125+2))+100)%>"  style="display : none">
@@ -177,16 +185,144 @@
                     <a href="#" class="btn btn-sm animated-button thar-one" onclick="document.getElementById('<%=data._id%>').submit();">Add to Cart</a> 
                     <a href="/delete/<%=data._id%>" name="delete" class="btn btn-sm animated-button victoria-one" value="<%=data.fileName%>">&nbsp;Delete</a>
                   </form>
+                  <div id="content" style="display: none;">
+                    <h3>IamRapid</h3>
+                    <p id = "pdf">Product name:---------------------------------------------------<%=data.fileName%></br>
+                                  Price:-------------------------------------------------------------<%= data.price%></br>
+                                  SGST(9%):------------------------------------------------------<%=((Number(data.price))*.09)%>
+                                  CGST(9%):------------------------------------------------------<%=((Number(data.price))*.09)%>
+                                  Total:-------------------------------------------------------------<%=((Number(data.price))*.18)+ Number(data.price)%>
+                    </p>
+                  </div>
+                  <div id="editor"></div>
+                  <a id = "generatePDFlink" href= "#" style = "color: blue;">Download quoute  PDF</a>
                 </div>
               </div>
             </div>
           <% }); %>
+          <div class="dialog">
+            <h2>Whoops sorry :(</h2>
+            <p id ="errormsg1"></p>
+            <p id ="errormsg2"></p>
+            <button id="okButton">Ok</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
+
+<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+	
+	 <script>
+	</script>
+	
+	<script>
+	
+var doc = new jsPDF();
+var specialElementHandlers = {
+    '#editor': function (element, renderer) {
+        return true;
+    }
+};
+
+$('#generatePDFlink').click(function () {   
+    doc.fromHTML($('#content').html(), 15, 15, {
+        'width': 170,
+            'elementHandlers': specialElementHandlers
+    });
+    doc.save('sample-file.pdf');
+});
+</script>
+	
+
+
+    <!--==========================
+    Footer
+  ============================-->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong>Dextrous Manufacturing pvt. ltd</strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+      </div>
+    </div>
+  </footer><!-- #footer -->
+
 <script>
+$("#stlfile").on("change", function(){
+  $("#upload-file").submit();
+});
+
+
+
+$(".dialog").before("<div class='dialogBlack'></div>");
+
+$(".dialog").prepend('<div id="close">☒</div>');
+function dialogMe() {
+  $(".dialog").css("display", "block");
+  $(".dialogBlack").css("opacity", "0.5");
+  $(".dialogBlack").css("z-index", "250");
+  $(".dialog p, .dialog h2").css("opacity", "1");
+  $("#close").css("opacity", "1");
+  $("#okButton").css("opacity", "1");
+  $(".dialog").css("height", "185px");
+  $(".dialog").css("width", "300px");
+  $(".dialog").css("padding", "15px");
+  $(".dialog").css("margin-left", "-174.5px");
+  setTimeout(function() {
+    $(".dialog").css("opacity", "1");
+  }, 400);
+}
+
+$(".dialog #close, .dialog #okButton, .dialogBlack").click(function() {
+  $(".dialog p, .dialog h2").css("opacity", "0");
+  $(".dialogBlack").css("opacity", "0");
+  $(".dialogBlack").css("z-index", "-5");
+  $("#close").css("opacity", "0");
+  $("#okButton").css("opacity", "0");
+  $(".dialog").css("height", "0px");
+  $(".dialog").css("width", "0px");
+  $(".dialog").css("margin-left", "174.5px");
+  $(".dialog").css("padding", "0px");
+  setTimeout(function() {
+    $(".dialog").css("opacity", "0");
+  }, 400);
+});
+
+$('#stlfile').bind('change', function() {
+  console.log($("#stlfile").val());
+  var fileext = ($("#stlfile").val()).slice(-4);
+  console.log(fileext);
+  //this.files[0].size gets the size of your file.
+  var size = (this.files[0].size);
+  if (size <= 60302430){
+    if (fileext == ".stl" || fileext == ".STL"){
+      $("#uploadForm").submit()
+    }
+    else{
+      $("#errormsg1").text("Only .stl or .STL file supported");
+      $("#errormsg2").text("Please Upload different file");
+      dialogMe();
+      $("#stlfile").val(null);
+    }
+  }
+  else{
+      $("#errormsg1").text("File too large");
+      $("#errormsg2").text("Max size is 25MB");
+     dialogMe();
+    $("#stlfile").val(null);
+  }
+});
+
 var lh1 = $('#storeLayerHeight1').val();
 $("#layerHeight1").val(lh1).change();
 
@@ -1817,5 +1953,27 @@ $( "#infill5" ).change(function(){
     crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
+    
+<script src="lib/jquery/jquery.min.js"></script>
+  <script src="lib/jquery/jquery-migrate.min.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="lib/easing/easing.min.js"></script>
+  <script src="lib/wow/wow.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8HeI8o-c1NppZA-92oYlXakhDPYR7XMY"></script>
+
+  <script src="lib/waypoints/waypoints.min.js"></script>
+  <script src="lib/counterup/counterup.min.js"></script>
+  <script src="lib/superfish/hoverIntent.js"></script>
+  <script src="lib/superfish/superfish.min.js"></script>
+
+  <!-- Contact Form JavaScript File -->
+  <script src="contactform/contactform.js"></script>
+
+  <!-- Template Main Javascript File -->
+  <script src="js/main.js"></script>
+
+
+  <!-- Contact Form JavaScript File -->
+  <script src="contactform/contactform.js"></script>
 </body>
 </html>

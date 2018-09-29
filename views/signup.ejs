@@ -2,142 +2,512 @@
 <html lang="en">
 
     <head>
-  <meta charset="utf-8">
-  <title>IamRapid</title>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta content="" name="keywords">
-  <meta content="" name="description">
 
-  <!-- Favicons -->
-  <link href="img/favicon.png" rel="icon">
-  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>IamRapid</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet">
+        <!-- CSS -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="assets/csss/form-elements.css">
+        <link rel="stylesheet" href="assets/css/style.css">
 
-  <!-- Bootstrap CSS File -->
-  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
 
-  <!-- Libraries CSS Files -->
-  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="lib/animate/animate.min.css" rel="stylesheet">
-
-  <!-- Main Stylesheet File -->
-    <link href="css/style.css" rel="stylesheet">
-        <link href="css/login.css" rel="stylesheet">
-    </head>
-    <body>
-          <header id="header" style = "background-color: black;">
-    <div class="container" style = "background-color: black;">
-
-      <div id="logo" class="pull-left">
-        <a href="#hero"><img src="img/logo.png" alt="" title="" /></img></a>
-        <!-- Uncomment below if you prefer to use a text logo -->
-        <!--<h1><a href="#hero">Regna</a></h1>-->
-      </div>
-
-      <nav id="nav-menu-container">
-        <ul class="nav-menu">
-          <li><a href="/contact-us">Contact Us</a></li>
-<%if (user == false){%>
-          <li><a href="/register">Login or Signup</a></li>
-<% }else{ %>
-<li><a href="#">Hi <%=user%></a></li>
-<li><a href="/uploadfile">My uploads</a></li>
-<li><a href="/mycart">Cart</a></li>
-<% } %>
-        </ul>
-      </nav><!-- #nav-menu-container -->
-    </div>
-  </header><!-- #header -->
-        <div class = "container" id ="formContainer">
-            <div class="row">
-                <div class="cont">
-          <div class="form sign-in">
-            <h2>Welcome back,</h2>
-            <form id = "loginForm" role="form" action="/login" method="POST" class="login-form">
-            <label>
-              <span>Email</span>
-              <input type="text" name="username" id="form-username">
-            </label>
-            <label>
-              <span>Password</span>
-              <input type="password" name="password" id="form-password">
-            </label>
-            <p class="forgot-pass">Forgot password?</p>
-            <button type="submit" class="submit" id = "loginSubmit">Sign In</button>
-            </form>
-            <a href = "/auth/google"><button type="button" class="fb-btn">Connect with <span style = "color: #EA4335;">Google</span></button></a>
-          </div>
-          <div class="sub-cont">
-            <div class="img">
-              <div class="img__text m--up">
-                <h2>New here?</h2>
-                <p>Sign up and discover great amount of new opportunities!</p>
-              </div>
-              <div class="img__text m--in">
-                <h2>One of us?</h2>
-                <p>If you already has an account, just sign in. We've missed you!</p>
-              </div>
-              <div class="img__btn">
-                <span class="m--up">Sign Up</span>
-                <span class="m--in">Sign In</span>
-              </div>
-            </div>
-            <div class="form sign-up">
-              <h2>Time to feel like home,</h2>
-              <form role="form" action="/register" method="POST" class="registration-form">
-              <label>
-                <span>Name</span>
-                <input type="text" name="username" id="signupusername">
-              </label>
-              <label>
-                <span>Email</span>
-                <input type="text" name="email" id="signupemail">
-              </label>
-              <label>
-                <span>Password</span>
-                <input name="password" type = "password" id="signuppassword">
-              </label>
-              <p id = "passwordalert" style = "font-size: 11px; color: red;">password should be of atleast 6 characters</p>
-              <p id = "alertmsg" style = "color: red; margin-left: 160px;"></p>
-              <p style = "margin-left: 160px;"></p>
-              <button type="submit" class="submit" id = "signupbtn"  disabled="disabled" style = "margin-top: 20px;">Sign Up</button>
-              </form>
-              
-              <a href = "/auth/google"><button type="button" class="fb-btn">Connect with <span style = "color: #EA4335;">Google</span></button></a>
-            </div>
-          </div>
-        </div> 
-        </div>
-        </div>
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="assets/ico/favicon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
         
+        
+        <style>
+        	#header {
+  padding: 30px 0;
+  height: 92px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  transition: all 0.5s;
+  z-index: 997;
+}
+
+#header #logo {
+  float: left;
+}
+
+#header #logo h1 {
+  font-size: 36px;
+  margin: 0;
+  padding: 6px 0;
+  line-height: 1;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+#header #logo h1 a, #header #logo h1 a:hover {
+  color: #fff;
+}
+
+#header #logo img {
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  #header #logo h1 {
+    font-size: 26px;
+  }
+  #header #logo img {
+    max-height: 40px;
+  }
+}
+
+#header.header-fixed {
+  background: rgba(52, 59, 64, 0.9);
+  padding: 20px 0;
+  height: 72px;
+  transition: all 0.5s;
+}
+
+
+
+
+/* Nav Menu Essentials */
+.nav-menu, .nav-menu * {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-menu ul {
+  position: absolute;
+  display: none;
+  top: 100%;
+  left: 0;
+  z-index: 99;
+}
+
+.nav-menu li {
+  position: relative;
+  white-space: nowrap;
+}
+
+.nav-menu > li {
+  float: left;
+}
+
+.nav-menu li:hover > ul,
+.nav-menu li.sfHover > ul {
+  display: block;
+}
+
+.nav-menu ul ul {
+  top: 0;
+  left: 100%;
+}
+
+.nav-menu ul li {
+  min-width: 180px;
+}
+
+/* Nav Menu Arrows */
+.sf-arrows .sf-with-ul {
+  padding-right: 30px;
+}
+
+.sf-arrows .sf-with-ul:after {
+  content: "\f107";
+  position: absolute;
+  right: 15px;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.sf-arrows ul .sf-with-ul:after {
+  content: "\f105";
+}
+
+/* Nav Meu Container */
+#nav-menu-container {
+  float: right;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  #nav-menu-container {
+    display: none;
+  }
+}
+
+/* Nav Meu Styling */
+.nav-menu a {
+  padding: 0 8px 10px 8px;
+  text-decoration: none;
+  display: inline-block;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 13px;
+  outline: none;
+}
+
+.nav-menu > li {
+  margin-left: 10px;
+}
+
+.nav-menu > li > a:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #2dc997;
+  visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+}
+
+.nav-menu a:hover:before, .nav-menu li:hover > a:before, .nav-menu .menu-active > a:before {
+  visibility: visible;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+
+.nav-menu ul {
+  margin: 4px 0 0 0;
+  border: 1px solid #e7e7e7;
+}
+
+.nav-menu ul li {
+  background: #fff;
+}
+
+.nav-menu ul li:first-child {
+  border-top: 0;
+}
+
+.nav-menu ul li a {
+  padding: 10px;
+  color: #333;
+  transition: 0.3s;
+  display: block;
+  font-size: 13px;
+  text-transform: none;
+}
+
+.nav-menu ul li a:hover {
+  background: #2dc997;
+  color: #fff;
+}
+
+.nav-menu ul ul {
+  margin: 0;
+}
+
+/* Mobile Nav Toggle */
+#mobile-nav-toggle {
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 999;
+  margin: 20px 20px 0 0;
+  border: 0;
+  background: none;
+  font-size: 24px;
+  display: none;
+  transition: all 0.4s;
+  outline: none;
+  cursor: pointer;
+}
+
+#mobile-nav-toggle i {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  #mobile-nav-toggle {
+    display: inline;
+  }
+}
+
+/* Mobile Nav Styling */
+#mobile-nav {
+  position: fixed;
+  top: 0;
+  padding-top: 18px;
+  bottom: 0;
+  z-index: 998;
+  background: rgba(52, 59, 64, 0.9);
+  left: -260px;
+  width: 260px;
+  overflow-y: auto;
+  transition: 0.4s;
+}
+
+#mobile-nav ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#mobile-nav ul li {
+  position: relative;
+}
+
+#mobile-nav ul li a {
+  color: #fff;
+  font-size: 16px;
+  overflow: hidden;
+  padding: 10px 22px 10px 15px;
+  position: relative;
+  text-decoration: none;
+  width: 100%;
+  display: block;
+  outline: none;
+}
+
+#mobile-nav ul li a:hover {
+  color: #fff;
+}
+
+#mobile-nav ul li li {
+  padding-left: 30px;
+}
+
+#mobile-nav ul .menu-has-children i {
+  position: absolute;
+  right: 0;
+  z-index: 99;
+  padding: 15px;
+  cursor: pointer;
+  color: #fff;
+}
+
+#mobile-nav ul .menu-has-children i.fa-chevron-up {
+  color: #2dc997;
+}
+
+#mobile-nav ul .menu-item-active {
+  color: #2dc997;
+}
+
+#mobile-body-overly {
+  width: 100%;
+  height: 100%;
+  z-index: 997;
+  top: 0;
+  left: 0;
+  position: fixed;
+  background: rgba(52, 59, 64, 0.9);
+  display: none;
+}
+
+/* Mobile Nav body classes */
+body.mobile-nav-active {
+  overflow: hidden;
+}
+
+body.mobile-nav-active #mobile-nav {
+  left: 0;
+}
+
+body.mobile-nav-active #mobile-nav-toggle {
+  color: #fff;
+}
+
+
+/*--------------------------------------------------------------
+# Footer
+--------------------------------------------------------------*/
+#footer {
+  background: #343b40;
+  color: #fff;
+  font-size: 14px;
+}
+
+#footer .copyright {
+  text-align: center;
+}
+
+#footer .credits {
+  padding-top: 10px;
+  text-align: center;
+  font-size: 13px;
+  color: #ccc;
+}
+
+        </style>
+    </head>
+
+    <body>
+        <header id="header" style = "background-color: black;">
+        	 <div class="container">
+            	<div id="logo" class="pull-left">
+        			<a href="/"><img src="img/logo.png" alt="" title="" /></img></a>
+        			<!-- Uncomment below if you prefer to use a text logo -->
+        			<!--<h1><a href="#hero">Regna</a></h1>-->
+    			</div>
+		        <nav id="nav-menu-container">
+			        <ul class="nav-menu">
+				        <li class="menu-active"><a href="/contact-us">Contact Us</a></li>
+				        <li><a href="/">Home</a></li>
+				        <!--<li><a href="#services">Services</a></li>-->
+				        <!--<li><a href="#portfolio">How It Works</a></li>-->
+			        </ul>
+			    </nav><!-- #nav-menu-container -->
+		    </div>
+        </header>
+        <!-- Top content -->
+        <div class="top-content">
+        	
+            <div class="inner-bg">
+                <div class="container">
+                	
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 text">
+
+                            <div class="description">
+                  
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-5">
+                        	
+                        	<div class="form-box">
+	                        	<div class="form-top">
+	                        		<div class="form-top-left">
+	                        			<h3>Login to our site</h3>
+	                            		<p>Enter username and password to log on:</p>
+	                        		</div>
+	                        		<div class="form-top-right">
+	                        			<i class="fa fa-key"></i>
+	                        		</div>
+	                            </div>
+	                            <div class="form-bottom">
+				                    <form role="form" action="/login" method="POST" class="login-form">
+				                    	<div class="form-group">
+				                    		<label class="sr-only" for="form-username">Username</label>
+				                        	<input type="text" name="username" placeholder="Username..." class="form-username form-control" id="form-username">
+				                        </div>
+				                        <div class="form-group">
+				                        	<label class="sr-only" for="form-password">Password</label>
+				                        	<input type="password" name="password" placeholder="Password..." class="form-password form-control" id="form-password">
+				                        </div>
+				                        <button type="submit" class="btn">Sign in!</button>
+				                    </form>
+			                    </div>
+		                    </div>
+		                
+		                	<div class="social-login">
+	                        	<h3>...or login with:</h3>
+	                        	<div class="social-login-buttons">
+		                        	<!--<a class="btn btn-link-1 btn-link-1-facebook" href="#">-->
+		                        	<!--	<i class="fa fa-facebook"></i> Facebook-->
+		                        	<!--</a>-->
+		                        	<!--<a class="btn btn-link-1 btn-link-1-twitter" href="#">-->
+		                        	<!--	<i class="fa fa-twitter"></i> Twitter-->
+		                        	<!--</a>-->
+		                        	<a class="btn btn-link-1 btn-link-1-google-plus" href="/auth/google">
+		                        		<i class="fa fa-google-plus"></i> Google Plus
+		                        	</a>
+	                        	</div>
+	                        </div>
+	                        
+                        </div>
+                        
+                        <div class="col-sm-1 middle-border"></div>
+                        <div class="col-sm-1"></div>
+                        	
+                        <div class="col-sm-5">
+                        	
+                        	<div class="form-box">
+                        		<div class="form-top">
+	                        		<div class="form-top-left">
+	                        			<h3>Sign up now</h3>
+	                            		<p>Fill in the form below to get instant access:</p>
+	                        		</div>
+	                        		<div class="form-top-right">
+	                        			<i class="fa fa-pencil"></i>
+	                        		</div>
+	                            </div>
+	                            <div class="form-bottom">
+				                    <form role="form" action="/register" method="POST" class="registration-form">
+				                        <div class="form-group">
+				                        	<label class="sr-only" for="form-email">Email</label>
+				                        	<input type="text" name="username" placeholder="Username..." class="form-email form-control" id="signupusername">
+				                        </div>
+				                        <div class="form-group">
+				                    		<label class="sr-only" for="form-first-name">First name</label>
+				                        	<input type="text" name="email" placeholder="Email..." class="form-first-name form-control" id="signupemail">
+				                        </div>
+				                        <div class="form-group">
+				                        	<label class="sr-only" for="form-last-name">Last name</label>
+				                        	<input type="text" name="mobileNo" placeholder="Mobile No..." class="form-last-name form-control" id="signupmobileno">
+				                        </div>
+				                        <div class="form-group">
+				                        	<label class="sr-only" for="form-about-yourself">About yourself</label>
+				                        	<input name="password" type = "password" placeholder="Password" class="form-about-yourself form-control" id="signuppassword"></textarea>
+				                        </div>
+				                        <p id = "passwordalert" style = "font-size: 11px; color: red;">password should be of atleast 6 characters</p>
+				                        <div id = "meribtn">
+				                        <button type="submit" class="btn" id ="signupbtn" disabled="disabled">Sign me up!</button>
+				                        </div>
+				                    </form>
+				                    <p id = "alertmsg" style = "color: red;"></p>
+			                    </div>
+                        	</div>
+                        	
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
         </div>
+
+        <!-- Footer -->
   <!--==========================
     Footer
   ============================-->
-  <footer id="footer">
-    <div class="footer-top">
-      <div class="container">
-
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="copyright">
+      <footer>
+        	<div class="container">
+        		<div class="row">
+        			
+        			<div class="col-sm-8 col-sm-offset-2">
+        				<div class="footer-border"></div>
+<div class="copyright">
         &copy; Copyright <strong>Dextrous Manufacturing pvt. ltd</strong>. All Rights Reserved
       </div>
-      <div class="credits">
-      </div>
-    </div>
-  </footer><!-- #footer -->
-   <script src="lib/jquery/jquery.min.js"></script>
-<script>
-    document.querySelector('.img__btn').addEventListener('click', function() {
-  document.querySelector('.cont').classList.toggle('s--signup');
-});
-
-
+        			</div>
+        			
+        		</div>
+        	</div>
+        </footer>
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+        <script>
         	$("#passwordalert").hide();
         	// if( ($("#signupusername").val() != "") && ($("#signupemail").val() != "") && ($("#signupmobileno").val() != "") && ($("#signuppassword").val() != ""))
         	// $("#signupbtn").attr("disabled", "disabled");
@@ -148,7 +518,7 @@
         		else{
         			$("#passwordalert").hide();
         		}
-        		if( ($("#signupusername").val() != "") && ($("#signupemail").val() != "") && ($("#signuppassword").val().length > 5)){
+        		if( ($("#signupusername").val() != "") && ($("#signupemail").val() != "") && ($("#signupmobileno").val() != "") && ($("#signuppassword").val().length > 5)){
         			
         			$("#signupbtn").removeAttr('disabled');
         		}
@@ -158,7 +528,7 @@
 			});
 			
 			$( "#signupusername" ).keyup(function() {
-        		if( ($("#signupusername").val() != "") && ($("#signupemail").val() != "") && ($("#signuppassword").val().length > 5)){
+        		if( ($("#signupusername").val() != "") && ($("#signupemail").val() != "") && ($("#signupmobileno").val() != "") && ($("#signuppassword").val().length > 5)){
         			
         			$("#signupbtn").removeAttr('disabled');
         		}
@@ -168,7 +538,7 @@
 			});
 			
 			$( "#signupemail" ).keyup(function() {
-        		if( ($("#signupusername").val() != "") && ($("#signupemail").val() != "") && ($("#signuppassword").val().length > 5)){
+        		if( ($("#signupusername").val() != "") && ($("#signupemail").val() != "") && ($("#signupmobileno").val() != "") && ($("#signuppassword").val().length > 5)){
         			
         			$("#signupbtn").removeAttr('disabled');
         		}
@@ -178,7 +548,7 @@
 			});
 			
 			$( "#signupmobileno" ).keyup(function() {
-        		if( ($("#signupusername").val() != "") && ($("#signupemail").val() != "") && ($("#signuppassword").val().length > 5)){
+        		if( ($("#signupusername").val() != "") && ($("#signupemail").val() != "") && ($("#signupmobileno").val() != "") && ($("#signuppassword").val().length > 5)){
         			
         			$("#signupbtn").removeAttr('disabled');
         		}
@@ -186,6 +556,11 @@
 					$("#signupbtn").attr("disabled", "disabled");
 				}
 			});
-</script>
+        </script>
+        <!--[if lt IE 10]>
+            <script src="assets/js/placeholder.js"></script>
+        <![endif]-->
+
     </body>
+
 </html>

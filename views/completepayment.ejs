@@ -204,10 +204,10 @@
 										<div class="sub">
 											<p><span>Subtotal:</span> <span>Rs. <%= additionaldata.totalprice %></span></p>
 											<p><span>Delivery:</span> <span>Rs. 0.00</span></p>
-											<p><span>Discount:</span> <span>Rs. 0.00</span></p>
+											<p><span>Tax (18%):</span> <span>Rs. <%=tax%></span></p>
 										</div>
 										<div class="grand-total">
-											<p><span><strong>Total:</strong></span> <span>Rs. <%= additionaldata.totalprice %></span></p>
+											<p><span><strong>Total:</strong></span> <span>Rs. <%= final %></span></p>
 										</div>
 									</div>
 								</div>
@@ -304,5 +304,4 @@
 
 	</body>
 </html>
-
 

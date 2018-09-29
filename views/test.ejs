@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+            <div class = "container">
+                <form action="/upload" method="POST" enctype="multipart/form-data" ref='uploadForm' id = "upload-form" style = "display: none;">
+        <input type="file" id= "stlfile" name="sampleFile" class="custom-file-input ddColor " style="height:200px;"/>
+        <label for="file" class="custom-file-label ddColor" >
+                <p>  </p>
+          <h2> Drag and Drop files or Click to upload</h2>
+          <hr>
+          <h5>Supported file formats:</h5>
+          <p>only .stl files
+             (max size 25 MB)</p>
+    </div>
+        </label>
+      </form>
+                <!--<input id="fileuploadinput" type="file" style="display:none" />-->
+          <div class = "jumbotron" onclick="document.getElementById('fileuploadinput').click();">
+      
+
+    </div>
+    </div>
+    <script>
+        $(".jumbotron").on("click",function(){
+            $("#stlfile").val();
+        });
+        
+    </script>
+    </body>
+</html> 

@@ -116,7 +116,10 @@ var cartSchema  = new mongoose.Schema({
     price            : String,
     quantity         : String,
     layerHeight      : String,
-    infill           : String
+    infill           : String,
+    material         : String,
+    tax              : String,
+    total            : String
 });
 
 
@@ -250,24 +253,38 @@ passport.use('google', new GoogleStrategy({
   }, (accessToken, refreshToken, profile, done) => {
       //console.log(refreshToken);
         // check if user already exists in our own db
+        //console.log("this is profile", profile, "profile ends")
         User.findOne({googleId: profile.id}).then((currentUser) => {
-            if(currentUser){
-                // already have this user
-                //console.log('user is: ', currentUser);
-                done(null, currentUser);
-            } else {
-                // console.log(profile.emails[0].value);
-                // if not, create user in our db
-                new User({
-                    googleId: profile.id,
-                    username: profile.displayName,
-                    emailId: profile.emails[0].value,
-                    photo: profile.photos[0].value,
-                }).save().then((newUser) => {
-                    //console.log('created new user: ', newUser);
-                    done(null, newUser);
-                });
-            }
+                if(currentUser){
+                    // already have this user
+                    done(null, currentUser);
+                } else {
+                    User.findOne({emailId: profile.emails[0].value}).then((existingemail) => {
+                        if(existingemail){
+                            User.findByIdAndUpdate(existingemail.id, {googleId: profile.id, emailId: profile.emails[0].value, photo: profile.photos[0].value,}, function (err, userUpdated){
+                                if (err){
+                                    //res.render("somethingwentwrong")
+                                }else{
+                                     done(null, userUpdated);
+                                }
+                            })
+                        }else{
+                              new User({
+                                googleId: profile.id,
+                                username: profile.displayName,
+                                emailId: profile.emails[0].value,
+                                photo: profile.photos[0].value,
+                            }).save().then((newUser) => {
+                                //console.log('created new user: ', newUser);
+                                done(null, newUser);
+                            });
+                        }
+                    })
+                    // console.log(profile.emails[0].value);
+                    // if not, create user in our db
+                  
+                }
+
         });
     })
 );
@@ -330,15 +347,32 @@ app.get("/", function (req,res){
       user= false;
   }
   console.log(user);
+  console.log(req.headers.host);
+  console.log(req.url);
    res.render ("index",{user: user});
 });
-
 
 // hire a designer route
 
 
 app.get ("/contact-us", function (req, res){
-   res.render ("hireDesigner"); 
+            var user;
+     if (req.user){
+        user = req.user.username;
+        var name = user + " ";
+        var i;
+        var shortName;
+        for (i= 0; i < name.length; i++){
+            if (name[i] == " "){
+                user = name.slice(0,i);
+                break;
+            }
+        }
+  }
+  else{
+      user= false;
+  }
+   res.render ("hireDesigner", {user: user}); 
 });
 
 //==============================================================================
@@ -356,27 +390,29 @@ app.get('/auth/google/redirect', passport.authenticate('google'), function(req,r
 
 
 app.get("/register", function (req, res){
-    var user;
- if (req.user){
-    user = req.user.username;
-    var name = user + " ";
-    var i;
-    var shortName;
-    for (i= 0; i < name.length; i++){
-        if (name[i] == " "){
-            user = name.slice(0,i);
-            break;
+        var user;
+     if (req.user){
+        user = req.user.username;
+        var name = user + " ";
+        var i;
+        var shortName;
+        for (i= 0; i < name.length; i++){
+            if (name[i] == " "){
+                user = name.slice(0,i);
+                break;
+            }
         }
-    }
-}
-else{
-  user= false;
-}
-res.render("signup", {user, user});
+  }
+  else{
+      user= false;
+  }
+    res.render("signup2", {user, user});
 });
 
 app.post ("/register", function (req, res){
+    
     var email = req.body.email;
+    
     var username = req.body.username;
     User.find({emailId: email}, function(err, existingEmail){
         if (err){
@@ -677,9 +713,11 @@ app.get("/mycart", authCheck, function (req, res) {
             obj.forEach(function(data){
                 totalprice = totalprice + parseInt(data.price);
             });
+            var tax  = totalprice * .18;
+            var final = totalprice + tax;
             console.log(totalprice);
             var additionaldata = {totalp: totalprice, username: req.user.username, email: req.user.emailId, image: req.user.photo}
-            res.render ("carttamplete", {obj: obj, additionaldata: additionaldata, user: user});
+            res.render ("carttamplete", {obj: obj, additionaldata: additionaldata, user: user, tax: tax, final: final});
         }
     });
 });
@@ -733,27 +771,26 @@ app.post("/modify/:id",function(req,res){
 
 // post route @add to cart
 app.post("/AddToCart/:id", authCheck, function(req,res){
-    var Price = req.body.finalPrice;
-    console.log(req)
-    //console.log(Price);
-    var name = req.body.fileName;
-    //console.log(name);
-    var qnt = Number(req.body.quantity);
-    //console.log("quantity",qnt);
-    //console.log(req.params);
-    var layerheighttocart = req.body.layerheighttocart;
-    var infilltocart = req.body.infilltocart;
-    var newCart = {name: name, price: Price, quantity: qnt};
-    Cart.create({emailId: req.user.emailId, cartFileName: name, price: Price, quantity: qnt, layerHeight : layerheighttocart, infill: infilltocart }, function(err, newlyCreated){
-        if(err){
-            console.log(err);
-        }
-        else {
-            Upload.findByIdAndRemove(req.params.id, function (err){
-            res.redirect("/uploadfile");
+    Upload.findById(req.params.id, function (err, found){
+        if (err){
+            console.log (err);
+            res.render("somethingwentwrong");
+        }else{
+
+            Cart.create({emailId: found.emailId, cartFileName: found.fileName, price: found.price, quantity: found.quantity, layerHeight : found.lh, infill: found.infillPercentage, material: found.material }, function(err, newlyCreated){
+                if(err){
+                    console.log(err);
+                }
+                else {
+                    Upload.findByIdAndRemove(req.params.id, function (err){
+                    res.redirect("/uploadfile");
+                    });
+                }
             });
         }
+
     });
+
 });
 
 
@@ -791,56 +828,45 @@ app.get("/payment/:id", authCheck, function (req, res){
             }
             
             else{
-                Cart.find({emailId: req.user.emailId}, function (err,found){
-                    //console.log("FOUNDSOFIFHSUO", found);
-                    found.forEach(function(findeach){
-                        Order.create({productname: findeach.cartFileName, layerheight: findeach.layerHeight, infill: findeach.infill , emailId: req.user.emailId , paymentId: createdpayment.id, amount: findeach.price, status: parsedfile.status, quantity: findeach.quantity}, function(err, createdorder){
-                            if(err){
-                                console.log("couldnt create order")
-                                console.log(err);
-                            }
-                            else {
-                                console.log(createdorder);
-                            }
-                        })
-                    });
-        
-                    found.forEach(function(findeach){
-                        Cart.findByIdAndRemove(findeach._id, function(err){
-                            if(!err){
-                            }
+                User.find({emailId: req.user.emailId}, function(err, foundUser){
+                    if (err){
+                        console.log (err);
+                        res.render ("somethingwentwrong");
+                    }else{
+                        foundUser.forEach(function(eachUser){
+                            Cart.find({emailId: req.user.emailId}, function (err,found){
+                                if (err){
+                                    console.log(err);
+                                    res.render("somethingwentwrong");
+                                }else{
+                                    found.forEach(function(findeach){
+                                        Order.create({productname: findeach.cartFileName, layerheight: findeach.layerHeight, infill: findeach.infill , emailId: req.user.emailId , paymentId: createdpayment.id, amount: findeach.price, status: parsedfile.status, quantity: findeach.quantity, address: eachUser.address}, function(err, createdorder){
+                                            if(err){
+                                                console.log("couldnt create order")
+                                                console.log(err);
+                                                res.render("somethingwentwrong");
+                                            }
+                                            else {
+                                                console.log(createdorder);
+                                            }
+                                        })
+                                    });
+                        
+                                    found.forEach(function(findeach){
+                                        Cart.findByIdAndRemove(findeach._id, function(err){
+                                            if(!err){
+                                            }
+                                        });
+                                    });
+                                    res.redirect("/mycart");
+                                }
+                        
+                            });
                         });
-                    });
-                    res.redirect("/mycart");
+                    }
                 });
-                        // let transporter = nodemailer.createTransport({
-                            // service: 'smtp.gmail.com',
-                            // port: 465,
-                            // secure: true,
-                            //     auth: {
-                            //         user: '"Swastik singh" <swastik.singh0301@gmail.com>',
-                            //         pass: 'leomessi10'
-                            //Order.create({  productname: , layerheight: , infill: , emailId: ,  paymentId: newlyCreated.id, amount:Number(newlyCreated.amount)/100, status: newlyCreated.status})
-                //res.redirect("/uploadfile");
             }
-                
         });
-
-                // let HelperOptions = {
-                //     from: 'swastik.singh0301@gmail.com',
-                //     to: 'swastik.singh0301@gmail.com',
-                //     subject: 'Hello World',
-                //     text: 'i am testing',
-                // };
-                // transporter.sendMail(HelperOptions, function(err, info){
-                //     if(err){
-                //         console.log(err);
-                //     }
-                    // else{
-                    //     console.log('mail send');
-                    //     console.log(info);
-                    //     res.redirect("/uploadfile");
-                    // }
     });
                 
 });
@@ -943,105 +969,102 @@ app.get ("/complete-payment", authCheck, function(req, res){
         obj.forEach(function(data){
             totalprice = totalprice + parseInt(data.price);
         });
+        var tax  = totalprice * .18;
+        var final = totalprice + tax;
         console.log(totalprice);
-        var additionaldata = {totalprice: totalprice, username: req.user.username, email: req.user.emailId, image: req.user.photo}
-        res.render ("completepayment", {obj: obj, additionaldata: additionaldata, user: user});
+        var additionaldata = {totalprice: final, username: req.user.username, email: req.user.emailId, image: req.user.photo}
+        res.render ("completepayment", {obj: obj, additionaldata: additionaldata, user: user, tax: tax, final: final});
         }
     });
 })
 
 app.get("/uploadfile/modify-layer-height/:lh/:infill/:name/:id/:material", function (req, res){
-    console.log(req.params.lh);
-    console.log(req.params.name);
-    console.log(req.params.id);
-    var lh = req.params.lh;
-    var name = req.params.name;
-    var id = req.params.id;
-    var infill = req.params.infill;
-    console.log(infill);
-    console.log(typeof infill);
-    var material = req.params.material;
-    console.log(material);
-    console.log(typeof material);
-    var matid = material.slice(0,3);
-    var cmdURL = modifyCommandURL(name);
-        var file = editJson("../Cura/resources/machines/fdmprinter.json");
-    file.get().categories.resolution.settings.layer_height.default = Number(lh);
-    file.get().categories.infill.settings.infill_sparse_density.children.infill_line_distance.default = Number(infill);
-    file.save();
-    cmd.get(cmdURL, function (){
-        var dataTime = fs.readFileSync("outputTime.txt", "utf8");
-        var dataWeight = fs.readFileSync("outputWeight.txt", "utf8");
-        console.log(dataTime);
-        console.log(dataWeight);
-        
-        //calculating price of PLA material Rs 10 per gram
-        if(matid === "PLA"){
-            var weight = Number(dataWeight);
-            weight = weight * 1.25 / 1000;
-            var finalweight = Math.ceil(weight) + 2;
-            var price = finalweight * 10 + dataTime * 20 + 100;
-            console.log ("price is !!!!!!!!", price);  
-        }
-        
-        // calculating price of PLA transparent Rs 12 per gram 
-        if(matid === "TRA"){
-            var weight = Number(dataWeight);
-            weight = weight * 1.25 / 1000;
-            var finalweight = Math.ceil(weight) + 2;
-            var price = finalweight * 12 + dataTime * 20 + 100;
-            console.log ("price is !!!!!!!!", price);  
-        }
-        
-        // calculatin price of ABS Rs 12 per gram
-        if(matid === "ABS"){
-            var weight = Number(dataWeight);
-            weight = weight * 1.25 / 1000;
-            var finalweight = Math.ceil(weight) + 2;
-            var price = finalweight * 12 + dataTime * 20 + 100;
-            console.log ("price is !!!!!!!!", price);  
-        }
-        
-        // calculatin price of Flexible material Rs 15 per gram
-        if(matid === "FLE"){
-            var weight = Number(dataWeight);
-            weight = weight * 1.21 / 1000;
-            var finalweight = Math.ceil(weight) + 2;
-            var price = finalweight * 15 + dataTime * 20 + 100;
-            console.log ("price is !!!!!!!!", price);  
-        }
-        
-        // calculatin price of carbon fibre Rs 25 per gram
-        if(matid === "CAR"){
-            var weight = Number(dataWeight);
-            weight = weight * 1.3 / 1000;
-            var finalweight = Math.ceil(weight) + 2;
-            var price = finalweight * 25 + dataTime * 20 + 100;
-            console.log ("price is !!!!!!!!", price);  
-        }
-        
-        // calculatin price of nylon Rs 25per gram
-        if(matid === "NYL"){
-            var weight = Number(dataWeight);
-            weight = weight * 1.1 / 1000;
-            var finalweight = Math.ceil(weight) + 2;
-            var price = finalweight * 25 + dataTime * 20 + 100;
-            console.log ("price is !!!!!!!!", price);  
-        }
-        Upload.findByIdAndUpdate(req.params.id, {modtime: Number(dataTime), modweight: Number(dataWeight), price: price, lh: lh}, function(err, updatedRapid){
-            if(err){
-                console.log(err);
-                res.render ("somethingwentwrong");
+    Upload.findById(req.params.id, function(err, found){
+        var dataWeight = found.weight;
+        var qty = found.quantity;
+        var lh = req.params.lh;
+        var name = req.params.name;
+        var id = req.params.id;
+        var infill = req.params.infill;
+        var material = req.params.material;
+        var matid = material.slice(0,3);
+        var cmdURL = modifyCommandURL(name);
+            var file = editJson("../Cura/resources/machines/fdmprinter.json");
+        file.get().categories.resolution.settings.layer_height.default = Number(lh);
+        file.get().categories.infill.settings.infill_sparse_density.children.infill_line_distance.default = Number(infill);
+        file.save();
+        cmd.get(cmdURL, function (){
+            var dataTime = fs.readFileSync("outputTime.txt", "utf8");
+            
+            //calculating price of PLA material Rs 10 per gram
+            if(matid === "PLA"){
+                var weight = Number(dataWeight);
+                weight = weight * 1.25 / 1000;
+                var finalweight = Math.ceil(weight) + 2;
+                var price = (finalweight * 10 + dataTime * 20 + 100)*qty;
+                console.log ("price is !!!!!!!!", price);  
             }
-            else{
-                //console.log(updatedRapid);
-                // res.redirect("/uploadfile");
-                var obj = {weight: finalweight, time: dataTime, price: price};
-                var api = JSON.stringify(obj);
-                res.send(api);
+            
+            // calculating price of PLA transparent Rs 12 per gram 
+            if(matid === "TRA"){
+                var weight = Number(dataWeight);
+                weight = weight * 1.25 / 1000;
+                var finalweight = Math.ceil(weight) + 2;
+                var price = (finalweight * 12 + dataTime * 20 + 100)*qty;
+                console.log ("price is !!!!!!!!", price);  
             }
+            
+            // calculatin price of ABS Rs 12 per gram
+            if(matid === "ABS"){
+                var weight = Number(dataWeight);
+                weight = weight * 1.25 / 1000;
+                var finalweight = Math.ceil(weight) + 2;
+                var price = (finalweight * 12 + dataTime * 20 + 100)*qty;
+                console.log ("price is !!!!!!!!", price);  
+            }
+            
+            // calculatin price of Flexible material Rs 15 per gram
+            if(matid === "FLE"){
+                var weight = Number(dataWeight);
+                weight = weight * 1.21 / 1000;
+                var finalweight = Math.ceil(weight) + 2;
+                var price = (finalweight * 15 + dataTime * 20 + 100)*qty;
+                console.log ("price is !!!!!!!!", price);  
+            }
+            
+            // calculatin price of carbon fibre Rs 25 per gram
+            if(matid === "CAR"){
+                var weight = Number(dataWeight);
+                weight = weight * 1.3 / 1000;
+                var finalweight = Math.ceil(weight) + 2;
+                var price = (finalweight * 25 + dataTime * 20 + 100)*qty;
+                console.log ("price is !!!!!!!!", price);  
+            }
+            
+            // calculatin price of nylon Rs 25per gram
+            if(matid === "NYL"){
+                var weight = Number(dataWeight);
+                weight = weight * 1.1 / 1000;
+                var finalweight = Math.ceil(weight) + 2;
+                var price = (finalweight * 25 + dataTime * 20 + 100)*qty;
+                console.log ("price is !!!!!!!!", price);  
+            }
+            Upload.findByIdAndUpdate(req.params.id, {modtime: Number(dataTime), modweight: Number(dataWeight), price: price, lh: lh}, function(err, updatedRapid){
+                if(err){
+                    console.log(err);
+                    res.render ("somethingwentwrong");
+                }
+                else{
+                    //console.log(updatedRapid);
+                    // res.redirect("/uploadfile");
+                    var obj = {weight: finalweight, time: dataTime, price: price};
+                    var api = JSON.stringify(obj);
+                    res.send(api);
+                }
+            });
         });
     });
+    
 })
 
 
@@ -1050,111 +1073,115 @@ app.get("/uploadfile/modify-layer-height/:lh/:infill/:name/:id/:material", funct
 
 // modify infill route
 app.get("/uploadfile/modify-infill-percentage/:infill/:lh/:name/:id/:material", function (req, res){
-    // var str = req.params.id;
-    // console.log(typeof str);
-    // console.log(str);
-    // var lh = str.slice(0,3)
-    // var name = str.slice(3);
-    console.log(req.params.lh);
-    console.log(req.params.name);
-    console.log(req.params.id);
-    var lh = req.params.lh;
-    var name = req.params.name;
-    var id = req.params.id;
-    var infill = req.params.infill;
-    if (infill == "1.1667"){
-        var infillPer = "30%";
-    }
-    if (infill == "3.5"){
-        var infillPer = "20%";
-    }
-     if (infill == "7.0"){
-        var infillPer = "10%";
-    }
-    console.log(infill);
-    console.log(typeof infill);
-    var material = req.params.material;
-    console.log(material);
-    console.log(typeof material);
-    var matid = material.slice(0,3);
-    var cmdURL = modifyCommandURL(name);
-        var file = editJson("../Cura/resources/machines/fdmprinter.json");
-    file.get().categories.resolution.settings.layer_height.default = Number(lh);
-    file.get().categories.infill.settings.infill_sparse_density.children.infill_line_distance.default = Number(infill);
-    file.save();
-    cmd.get(cmdURL, function (){
-        var dataTime = fs.readFileSync("outputTime.txt", "utf8");
-        var dataWeight = fs.readFileSync("outputWeight.txt", "utf8");
-        console.log(dataTime);
-        console.log(dataWeight);
-        
-        //calculating price of PLA material Rs 10 per gram
-        if(matid === "PLA"){
-            var weight = Number(dataWeight);
-            weight = weight * 1.25 / 1000;
-            var finalweight = Math.ceil(weight) + 2;
-            var price = finalweight * 10 + dataTime * 20 + 100;
-            console.log ("price is !!!!!!!!", price);  
+    Upload.findById(req.params.id, function(err, found){
+        // var str = req.params.id;
+        // console.log(typeof str);
+        // console.log(str);
+        // var lh = str.slice(0,3)
+        // var name = str.slice(3);
+        var qty = found.quantity;
+        console.log(req.params.lh);
+        console.log(req.params.name);
+        console.log(req.params.id);
+        var lh = req.params.lh;
+        var name = req.params.name;
+        var id = req.params.id;
+        var infill = req.params.infill;
+        if (infill == "1.1667"){
+            var infillPer = "30%";
         }
-        
-        // calculating price of PLA transparent Rs 12 per gram 
-        if(matid === "TRA"){
-            var weight = Number(dataWeight);
-            weight = weight * 1.25 / 1000;
-            var finalweight = Math.ceil(weight) + 2;
-            var price = finalweight * 12 + dataTime * 20 + 100;
-            console.log ("price is !!!!!!!!", price);  
+        if (infill == "3.5"){
+            var infillPer = "20%";
         }
-        
-        // calculatin price of ABS Rs 12 per gram
-        if(matid === "ABS"){
-            var weight = Number(dataWeight);
-            weight = weight * 1.25 / 1000;
-            var finalweight = Math.ceil(weight) + 2;
-            var price = finalweight * 12 + dataTime * 20 + 100;
-            console.log ("price is !!!!!!!!", price);  
+         if (infill == "7.0"){
+            var infillPer = "10%";
         }
-        
-        // calculatin price of Flexible material Rs 15 per gram
-        if(matid === "FLE"){
-            var weight = Number(dataWeight);
-            weight = weight * 1.21 / 1000;
-            var finalweight = Math.ceil(weight) + 2;
-            var price = finalweight * 15 + dataTime * 20 + 100;
-            console.log ("price is !!!!!!!!", price);  
-        }
-        
-        // calculatin price of carbon fibre Rs 25 per gram
-        if(matid === "CAR"){
-            var weight = Number(dataWeight);
-            weight = weight * 1.3 / 1000;
-            var finalweight = Math.ceil(weight) + 2;
-            var price = finalweight * 25 + dataTime * 20 + 100;
-            console.log ("price is !!!!!!!!", price);  
-        }
-        
-        // calculatin price of nylon Rs 25per gram
-        if(matid === "NYL"){
-            var weight = Number(dataWeight);
-            weight = weight * 1.1 / 1000;
-            var finalweight = Math.ceil(weight) + 2;
-            var price = finalweight * 25 + dataTime * 20 + 100;
-            console.log ("price is !!!!!!!!", price);  
-        }
-        Upload.findByIdAndUpdate(req.params.id, {modtime: Number(dataTime), modweight: Number(dataWeight), price: price, infillDensity: infill, infillPercentage: infillPer}, function(err, updatedRapid){
-            if(err){
-                console.log(err);
-                res.render("somethingwentwrong");
+        console.log(infill);
+        console.log(typeof infill);
+        var material = req.params.material;
+        console.log(material);
+        console.log(typeof material);
+        var matid = material.slice(0,3);
+        var cmdURL = modifyCommandURL(name);
+            var file = editJson("../Cura/resources/machines/fdmprinter.json");
+        file.get().categories.resolution.settings.layer_height.default = Number(lh);
+        file.get().categories.infill.settings.infill_sparse_density.children.infill_line_distance.default = Number(infill);
+        file.save();
+        cmd.get(cmdURL, function (){
+            var dataTime = fs.readFileSync("outputTime.txt", "utf8");
+            var dataWeight = fs.readFileSync("outputWeight.txt", "utf8");
+            console.log(dataTime);
+            console.log(dataWeight);
+            
+            //calculating price of PLA material Rs 10 per gram
+            if(matid === "PLA"){
+                var weight = Number(dataWeight);
+                weight = weight * 1.25 / 1000;
+                var finalweight = Math.ceil(weight) + 2;
+                var price = (finalweight * 10 + dataTime * 20 + 100)*qty;
+                console.log ("price is !!!!!!!!", price);  
             }
-            else{
-                //console.log(updatedRapid);
-                // res.redirect("/uploadfile");
-                var obj = {weight: finalweight, time: dataTime, price: price};
-                var api = JSON.stringify(obj);
-                res.send(api);
+            
+            // calculating price of PLA transparent Rs 12 per gram 
+            if(matid === "TRA"){
+                var weight = Number(dataWeight);
+                weight = weight * 1.25 / 1000;
+                var finalweight = Math.ceil(weight) + 2;
+                var price = (finalweight * 12 + dataTime * 20 + 100)*qty;
+                console.log ("price is !!!!!!!!", price);  
             }
+            
+            // calculatin price of ABS Rs 12 per gram
+            if(matid === "ABS"){
+                var weight = Number(dataWeight);
+                weight = weight * 1.25 / 1000;
+                var finalweight = Math.ceil(weight) + 2;
+                var price = (finalweight * 12 + dataTime * 20 + 100)*qty;
+                console.log ("price is !!!!!!!!", price);  
+            }
+            
+            // calculatin price of Flexible material Rs 15 per gram
+            if(matid === "FLE"){
+                var weight = Number(dataWeight);
+                weight = weight * 1.21 / 1000;
+                var finalweight = Math.ceil(weight) + 2;
+                var price = (finalweight * 15 + dataTime * 20 + 100)*qty;
+                console.log ("price is !!!!!!!!", price);  
+            }
+            
+            // calculatin price of carbon fibre Rs 25 per gram
+            if(matid === "CAR"){
+                var weight = Number(dataWeight);
+                weight = weight * 1.3 / 1000;
+                var finalweight = Math.ceil(weight) + 2;
+                var price = (finalweight * 25 + dataTime * 20 + 100)*qty;
+                console.log ("price is !!!!!!!!", price);  
+            }
+            
+            // calculatin price of nylon Rs 25per gram
+            if(matid === "NYL"){
+                var weight = Number(dataWeight);
+                weight = weight * 1.1 / 1000;
+                var finalweight = Math.ceil(weight) + 2;
+                var price = (finalweight * 25 + dataTime * 20 + 100)*qty;
+                console.log ("price is !!!!!!!!", price);  
+            }
+            Upload.findByIdAndUpdate(req.params.id, {modtime: Number(dataTime), modweight: Number(dataWeight), price: price, infillDensity: infill, infillPercentage: infillPer}, function(err, updatedRapid){
+                if(err){
+                    console.log(err);
+                    res.render("somethingwentwrong");
+                }
+                else{
+                    //console.log(updatedRapid);
+                    // res.redirect("/uploadfile");
+                    var obj = {weight: finalweight, time: dataTime, price: price};
+                    var api = JSON.stringify(obj);
+                    res.send(api);
+                }
+            });
         });
     });
+    
 })
 
 
@@ -1395,7 +1422,9 @@ app.post("/contactform", function(req, res){
 });
 
 
-
+app.get("/test", function (req, res){
+    res.render("test");
+})
 
 //test 
 // app.get ("/stl-img", function (req,res){

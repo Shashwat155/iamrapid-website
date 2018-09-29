@@ -1,251 +1,150 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-	<title>IamRapid</title>
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script type="text/javascript" src="app.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="/stylesheets/cart.css">
+  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900' rel='stylesheet' type='text/css'>
+  <title>iamRapid</title>
+  <style>
+  </style>
+</head>
 
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Rokkitt:100,300,400,700" rel="stylesheet">
-	
-	<!-- Animate.css -->
-	<link rel="stylesheet" href="csscart/animate.css">
-	<!-- Icomoon Icon Fonts-->
-	<link rel="stylesheet" href="csscart/icomoon.css">
-	<!-- Ion Icon Fonts-->
-	<link rel="stylesheet" href="csscart/ionicons.min.css">
-	<!-- Bootstrap  -->
-	<link rel="stylesheet" href="csscart/bootstrap.min.css">
+<body>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
 
-	<!-- Magnific Popup -->
-	<link rel="stylesheet" href="csscart/magnific-popup.css">
+<!--navbar-------------------------------------------------------------------------------------------------------------------------->
+<nav class="navbar fixed-top  navbar-expand-md navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">IamRapid</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-	<!-- Flexslider  -->
-	<link rel="stylesheet" href="csscart/flexslider.css">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <!--<ul class="navbar-nav mr-auto">-->
+    <!--  <li class="nav-item active">-->
+    <!--    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>-->
+    <!--  </li>-->
+    <!--  <li class="nav-item">-->
+    <!--    <a class="nav-link" href="#">Contact Us</a>-->
+    <!--  </li>-->
+    <!--  <li class="nav-item">-->
+    <!--    <a class="nav-link" href="#">About Us</a>-->
+    <!--  </li>-->
+    <!--</ul>-->
+  </div>
+</nav>
 
-	<!-- Owl Carousel -->
-	<link rel="stylesheet" href="csscart/owl.carousel.min.css">
-	<link rel="stylesheet" href="csscart/owl.theme.default.min.css">
-	
-	<!-- Date Picker -->
-	<link rel="stylesheet" href="csscart/bootstrap-datepicker.css">
-	<!-- Flaticons  -->
-	<link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
-
-	<!-- Theme style  -->
-	<link rel="stylesheet" href="csscart/style.css">
-	
-	  <!-- Favicons -->
-  <link href="img/favicon.png" rel="icon">
-  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet">
-
-  <!-- Bootstrap CSS File -->
-  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Libraries CSS Files -->
-  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="lib/animate/animate.min.css" rel="stylesheet">
-
-  <!-- Main Stylesheet File -->
-  <link href="css/style.css" rel="stylesheet">
-
-	</head>
-	<body>
-		
-	<div class="colorlib-loader"></div>
-
-	<div id="page">
-  <header id="header" style = "background-color: black;">
-    <div class="container">
-
-      <div id="logo" class="pull-left">
-        <a href="#hero"><img src="img/logo.png" alt="" title="" /></img></a>
-        <!-- Uncomment below if you prefer to use a text logo -->
-        <!--<h1><a href="#hero">Regna</a></h1>-->
-      </div>
-
-      <nav id="nav-menu-container">
-        <ul class="nav-menu">
-          <li><a href="/contact-us">Contact Us</a></li>
-          <!--<%console.log("from EJS");%>-->
-<%console.log(user)%>
-<%if (user == false){%>
-          <li><a href="/register">Login or Signup</a></li>
-<% }else{ %>
-<li><a href="/">Hi <%=user%></a></li>
-<li><a href="/uploadfile">My uploads</a></li>
-<li><a href="/mycart">Cart</a></li>
-<% } %>
-        </ul>
-      </nav><!-- #nav-menu-container -->
+<!---------------------------------------------------------------------------------------------------------------------------------->
+<div class="container marginNav">
+    <hr>
+    <div class="row">
+        <div class="col-md-12 m-auto ">
+            <div class="row">
+                <div class="col-md-9 m-auto ">
+                    <h1>My cart</h1>
+                </div>
+                <div class="col-md-3 m-auto ">
+                    <a href="/uploadfile"><h3>Back to Uploads</h3></a>
+                </div>
+            </div>    
+            <hr>
     </div>
-  </header><!-- #header -->
 
-		<div class="breadcrumbs">
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<!--<p class="bread"><span><a href="index.html">Home</a></span> / <span>Shopping Cart</span></p>-->
-					</div>
-				</div>
-			</div>
-		</div>
+        <div class="col-md-9 m-auto" style="border-right: 1px solid black">
+          <div class="container">
+            <div class="row">
+              <% var totalprice = 0 %>
+                <% obj.forEach(function(data){ %>
+                    <% totalprice = totalprice + data.price %>
+                    <div class="col-lg-12 col-md-12 shadow" style="border: 1px solid darkgray; margin: 10px 0; height:150px; border-radius:  .5rem .5rem "  >
+   
+                        <div class="row">
+                            <div class="thumbnail col-lg-3 col-md-3" style="border-right: 1px solid darkgray; height:148px; ">
+                                <%console.log(data.cartFileName)%>
+                                <%console.log(data.quantity)%>
 
-
-		<div class="colorlib-product">
-			<div class="container">
-				<div class="row row-pb-lg">
-					<div class="col-md-10 offset-md-1">
-						<div class="process-wrap">+
-							<div class="process text-center">
-								<p><span>01</span></p>
-								<h3>Shopping Cart</h3>
-							</div>
-							<div class="process text-center">
-								<p><span>02</span></p>
-								<h3>Provide Address</h3>
-							</div>
-							<div class="process text-center">
-								<p><span>03</span></p>
-								<h3>Complete Payment</h3>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row row-pb-lg">
-					
-					<div class="col-md-12">
-						<div class="product-name d-flex">
-							<div class="one-forth text-left px-4">
-								<span>Product Details</span>
-							</div>
-							<div class="one-eight text-center">
-								<span>Price</span>
-							</div>
-							<div class="one-eight text-center">
-								<span>Quantity</span>
-							</div>
-							<div class="one-eight text-center">
-								<span>Total</span>
-							</div>
-							<div class="one-eight text-center px-4">
-								<span>Remove</span>
-							</div>
-						</div>
-						<% var totalPrice = 0; %>
-					    <% obj.forEach(function(data){ %>
-					    <% totalPrice = totalPrice + Number(data.price); %>
-						<div class="product-cart d-flex">
-							<div class="one-forth">
-								<div class="product-img" style="background-image: url(<%= data.cartFileName %>.jpg);">
-								</div>
-								<div class="display-tc">
-									<h3>Product Name</h3>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<span class="price">Rs. <%= data.price %></span>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<input type="text" id="quantity" name="quantity" class="form-control input-number text-center" value="1" min="1" max="100" disabled>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<span class="price">Rs. <%= data.price %></span>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<a href= "/deletecart/<%=data._id%>" class="closed"></a>
-								</div>
-							</div>
-						</div>
-						<% }); %>
-					</div>
-				</div>
-				<div class="row row-pb-lg">
-					<div class="col-md-12">
-						<div class="total-wrap">
-							<div class="row">
-								<div class="col-sm-4 text-center">
-									<div class="total">
-										<div class="sub">
-											<p><span>Subtotal:</span> <span>Rs. <%= totalPrice %></span></p>
-											<p><span>Delivery:</span> <span>Rs. 0.00</span></p>
-											<p><span>Discount:</span> <span>Rs. 0.00</span></p>
-										</div>
-										<div class="grand-total">
-											<p><span><strong>Total:</strong></span> <span>Rs. <%= totalPrice %></span></p>
-										</div>
-									</div>
-										<a href = "/fill-address"><button id = "submit"  class= "btn btn-primary btn-block">Proceed</button></a>
-								</div>
-							</div>
-						</div>
-					</div>
-			<div style = "margin-left: 850px; margin-top: 20px;" >
+                                <img src="/<%=data.cartFileName%>.jpg" height="80%"/>
+                            </div>
+    
+                            <div class="col-lg-6 col-md-6 addBackgroundColor" style="border-right: 1px solid darkgray; height:148px;">
+                                <p><h4><%=data.cartFileName%></h4></p>
+                                <p> ₹<%= (Number(data.price))%> X <%=data.quantity%></p>    
+     
+                            </div>
+                            <div class="col-lg-3 col-md-3 addBackgroundColor" style="height:148px; border-radius: 0 .5rem .5rem 0">
+                                <h4 style="margin-top: 20px">Price : ₹ <span><%=data.price%></span></h4>
+                                <a style="margin-top: 35px padding: 5px 0" href="/deletecart/<%=data._id%>" name="delete" class="btn btn-sm animated-button victoria-one" value="<%=data.name%>">&nbsp;Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
             </div>
-				</div>
-			</div>
-		</div>
-		<footer id="footer">
-		    <div class="footer-top">
-		      <div class="container">
-		
-		      </div>
-		    </div>
-		
-		    <div class="container">
-		      <div class="copyright">
-		        &copy; Copyright <strong>Dextrous Manufacturing pvt. ltd</strong>. All Rights Reserved
-		      </div>
-		      <div class="credits">
-		      </div>
-		    </div>
-		  </footer><!-- #footer -->
+          </div>  
+        </div>
+        <div class="col-md-3 ">
+          
+            <p>Subtotal : <%= additionaldata.totalp %></p>
+            <p>Shipping Charges : 0</p>
+            <p>Tax = 0</p>
+            <p><strong>Total :  <%= additionaldata.totalp %> </strong></p>
+            <form action="/purchase" method="POST">
+              <!-- Note that the amount is in paise = 50 INR -->
+              <script
+                src="https://checkout.razorpay.com/v1/checkout.js"
+                data-key="rzp_test_2ZhVhf0meouzDo"
+                data-amount="<%=additionaldata.totalp%>00"
+                data-buttontext="Pay"
+                data-name="IamRapid"
+                data-description="3D-printing"
+                data-image="<%=additionaldata.image%>"
+                data-prefill.name="<%=additionaldata.username%>"
+                data-prefill.email=""
+                data-theme.color="#F37254"
+              ></script>
+              <input type="hidden" value="Hidden Element" name="hidden">
+              <!--<button type="button" class="btn btn-primary" onclick = "form.submit()">Pay</button>-->
+            </form>
+        </div>    
+    </div>
+</div>
 
 
-	</div>
 
-	<div class="gototop js-top">
-		<a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
-	</div>
-	
-	
-	
-	
-	<!-- jQuery -->
-	<script src="jscart/jquery.min.js"></script>
-   <!-- popper -->
-   <script src="jscart/popper.min.js"></script>
-   <!-- bootstrap 4.1 -->
-   <script src="jscart/bootstrap.min.js"></script>
-   <!-- jQuery easing -->
-   <script src="jscart/jquery.easing.1.3.js"></script>
-	<!-- Waypoints -->
-	<script src="jscart/jquery.waypoints.min.js"></script>
-	<!-- Flexslider -->
-	<script src="jscart/jquery.flexslider-min.js"></script>
-	<!-- Owl carousel -->
-	<script src="jscart/owl.carousel.min.js"></script>
-	<!-- Magnific Popup -->
-	<script src="jscart/jquery.magnific-popup.min.js"></script>
-	<script src="jscart/magnific-popup-options.js"></script>
-	<!-- Date Picker -->
-	<script src="jscart/bootstrap-datepicker.js"></script>
-	<!-- Stellar Parallax -->
-	<script src="jscart/jquery.stellar.min.js"></script>
-	<!-- Main -->
-	<script src="jscart/main.js"></script>
 
-	</body>
+
+
+
+
+
+
+
+
+  <script>
+  // $("document").ready(function(){
+  // // Number sum=0;
+  //   $("h4 span").each(function(index){
+  //     Number x = Number($( this ).text());
+  //     //sum=sum+Number(x);
+  //   });
+  //   //console.log(sum);
+  // });
+  </script>
+  
+  <script>
+    
+  </script>
+  
+ <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</body>
 </html>
-
-

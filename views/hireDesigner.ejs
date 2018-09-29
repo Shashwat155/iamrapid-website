@@ -23,6 +23,11 @@
 
   <!-- Main Stylesheet File -->
   <link href="css/style.css" rel="stylesheet">
+  <style>
+    html {
+    height: 100%
+}
+  </style>
 </head>
 
 <body>
@@ -30,17 +35,25 @@
   <!--==========================
   Header
   ============================-->
-  <header id="header">
+ <header id="header">
     <div class="container">
 
       <div id="logo" class="pull-left">
-        <a href="#hero"><img src="img/logo.png" alt="" title="" /></img></a>
+        <a href="/"><img src="img/logo.png" alt="" title="" /></img></a>
         <!-- Uncomment below if you prefer to use a text logo -->
         <!--<h1><a href="#hero">Regna</a></h1>-->
       </div>
+
       <nav id="nav-menu-container">
         <ul class="nav-menu">
-          <li class="menu-active"><a href="/">Home</a></li>
+          <li><a href="/contact-us">Contact Us</a></li>
+<%if (user == false){%>
+          <li><a href="/register">Login or Signup</a></li>
+<% }else{ %>
+<li><a href="#">Hi <%=user%></a></li>
+<li><a href="/uploadfile">My uploads</a></li>
+<li><a href="/mycart">Cart</a></li>
+<% } %>
         </ul>
       </nav><!-- #nav-menu-container -->
     </div>
@@ -49,12 +62,8 @@
   <!--==========================
     Hero Section
   ============================-->
-  <section id="hero" style ="background: url(../img/step0001.jpg) top center;   background-size: cover; position: relative;">
+  <section id="hero" style ="background: url(../img/hireDesigner/mainPhoto.jpg) top center; position: relative; background-repeat:no-repeat; background-size:contain; background-position:center; background-size: 100% 100%;" class="img-fluid bg" alt="Responsive image">
     <div class="hero-container">
-      <h1>Hire a Designer</h1>
-      <hr>
-      <h2 style="font-size: 20px; margin-right: 300px; margin-left: 300px; margin-bottom: 15px;">iamRapid is a Rapid Additive Manufacturing industry located in Bangalore always looking for the next great client and project. </h2>
-      <h2 style="font-size: 20px; margin-right: 300px; margin-left: 300px;"> If you’d like to work with us, just get in touch!</h2>
       <a href="#upload" class="btn-get-started">Get Started</a>
     </div>
   </section><!-- #hero -->
