@@ -6,7 +6,7 @@ body{
 		margin-top: 50px;
 	}
 	
-	#upload-file-div:hover{
+div#upload-file-div:hover{
 	  background-color: #4d5768;
 	}
 	
@@ -15,9 +15,9 @@ body{
   	background-color: rgba(5,5,20,0.1);
   }       
   
-  .quantity{
-  	padding-top: 13px;
-  }
+  /*.quantity{*/
+  /*	padding-top: 13px;*/
+  /*}*/
   
   .shadow{
   	box-shadow: 5px 5px 5px #a1a1a1;
@@ -64,7 +64,7 @@ a.animated-button:link, a.animated-button:visited {
 	margin: 30px auto 0;
 	padding: 14px 15px;
 	color: #898999;
-	font-size:20px;
+	font-size:15px;
 	/*font-weight: bold;*/
 	text-align: center;
 	text-decoration: none;
@@ -104,7 +104,7 @@ a.animated-button:link, a.animated-button:visited {
 	margin: 10px auto 0;
 	padding: 9px 15px;
 	color: #898999;
-	font-size:20px;
+	font-size:15px;
 	border-radius: 0;
 	/*font-weight: bold;*/
 	text-align: center;
@@ -193,7 +193,7 @@ a.animated-button.thar-one:before {
 .qty-input input {
   border: 0px solid;
   float: left;
-  font-size: 24px;
+  font-size: 16px;
   height: 38px;
   text-align: center;
   outline: none;
@@ -279,7 +279,7 @@ a:visited {color: lightSkyBlue;}
 
 .qty-input input {
 	height: 31px;
-	font-size: 18px;
+	font-size: 16px;
 }
 
     .dialog {
@@ -309,13 +309,13 @@ a:visited {color: lightSkyBlue;}
     
     .dialog h2 {
       margin-top: 0px;
-      font-size: 20px;
+      font-size: 15px;
       font-weight: 500;
     }
     
     #close {
       float: right;
-      font-size: 20px;
+      font-size: 15px;
       margin-top: -2.5px;
       cursor: pointer;
       -webkit-transition: all 0.5s ease-in-out;
