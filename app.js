@@ -375,6 +375,24 @@ app.get ("/contact-us", function (req, res){
    res.render ("hireDesigner", {user: user}); 
 });
 
+
+
+app.get("/service1/3D-DESIGNING-3D-SCANNING", function(req, res){
+    res.render("service1")
+});
+
+app.get("/service2/RAPID-PROTOTYPING-3D-PRINTING", function(req, res){
+    res.render("service2")
+});
+
+app.get("/service3/SMALL-SCALE-MANUFACTURING", function(req, res){
+    res.render("service3")
+});
+
+app.get("/service4/HIGH-VOLUME-MANUFACTURING", function(req, res){
+    res.render("service4")
+});
+
 //==============================================================================
 //  AUTH ROUTES
 //==============================================================================
